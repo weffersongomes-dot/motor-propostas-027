@@ -1,0 +1,23 @@
+# Dependências (linguagem a confirmar no Sprint 1)
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Ambiente
+.env
+.env.local
+
+# Saídas geradas (propostas contêm dados de clientes — não versionar)
+output/**
+!output/*/
+!output/**/.gitkeep
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

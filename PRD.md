@@ -1,5 +1,7 @@
 # PRD — Motor de Propostas Comerciais (027 Viagens)
 
+> Este PRD cobre o **Motor de Propostas**, o primeiro módulo da Plataforma de Documentos Comerciais da 027 Viagens (ver [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)). Futuros módulos (contratos, vouchers, itinerários, confirmações de reserva, recibos, checklists do passageiro, relatórios) terão seu próprio PRD ou adendo, reaproveitando a arquitetura comum já definida.
+
 ## 1. Problema
 
 A criação de propostas comerciais na 027 Viagens é hoje um processo manual e repetitivo: para cada viagem cotada, é necessário montar o texto da proposta, formatar um PDF, escrever uma mensagem de WhatsApp e um e-mail de envio — tudo isso a partir das mesmas informações básicas (destino, datas, valores, serviços inclusos, etc.), refeito do zero a cada vez.

@@ -17,6 +17,23 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
+## Sprint 0.5 — Evolução para Plataforma de Documentos
+
+**Objetivo:** revisar a arquitetura antes de iniciar a implementação funcional, preparando a estrutura para futuros módulos além do Motor de Propostas (contratos, vouchers, itinerários, etc.), sem exigir refatorações grandes depois.
+
+**Entregáveis:**
+- Novas camadas: `config/`, `components/`, `content/`, `schemas/`, `tests/`, cada uma documentada.
+- `docs/ARCHITECTURE.md` como referência técnica principal.
+- `templates/`, `output/` e `src/generators/` reorganizados por módulo (`propostas/` como primeiro módulo).
+- ADR [0002](docs/decisoes/0002-evolucao-para-plataforma-de-documentos.md) registrando a decisão.
+
+**Critérios de aceite:**
+- Estrutura de pastas suporta um novo tipo de documento sem mover/renomear o que já existe para `propostas/`.
+- `docs/ARCHITECTURE.md` documenta módulos, fluxo de dados obrigatório, responsabilidades por camada e estratégia de expansão.
+- Ainda nenhum código funcional implementado.
+
+---
+
 ## Sprint 1 — Modelo de dados
 
 **Objetivo:** definir a estrutura única de dados que alimenta todos os geradores de saída.

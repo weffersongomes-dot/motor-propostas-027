@@ -1,39 +1,24 @@
-# Motor de Propostas Comerciais — 027 Viagens
+# Plataforma de Documentos Comerciais — 027 Viagens
 
-Sistema para geração automatizada de propostas comerciais de viagem: a partir dos dados de uma viagem, produz proposta em HTML, PDF em papel timbrado, mensagem de WhatsApp, e-mail de envio e dados estruturados para integração futura com CRM.
+Plataforma para geração automatizada dos documentos comerciais da 027 Viagens. O primeiro módulo é o **Motor de Propostas**: a partir dos dados de uma viagem, produz proposta em HTML, PDF em papel timbrado, mensagem de WhatsApp, e-mail de envio e dados estruturados para integração futura com CRM/Coda. A arquitetura é preparada para, no futuro, gerar também contratos, vouchers, itinerários, confirmações de reserva, recibos, checklists do passageiro, relatórios e outros documentos institucionais — sem exigir grandes refatorações.
 
 ## Visão geral
 
-Hoje, montar uma proposta comercial na 027 Viagens é um processo manual: reunir informações da viagem, formatar texto, montar PDF, escrever mensagem de WhatsApp e e-mail — tudo repetido a cada cliente. O Motor de Propostas centraliza essa lógica: os dados da viagem entram uma única vez e todos os formatos de saída são gerados de forma consistente, padronizada e rápida.
+Hoje, montar uma proposta comercial na 027 Viagens é um processo manual: reunir informações da viagem, formatar texto, montar PDF, escrever mensagem de WhatsApp e e-mail — tudo repetido a cada cliente. O mesmo acontece, em menor escala, com outros documentos (contratos, vouchers, confirmações). A plataforma centraliza essa lógica: os dados da viagem entram uma única vez, passam por validação e regras de negócio comuns, e todo documento — de qualquer tipo — é gerado de forma consistente, padronizada e rápida.
 
 ## Objetivo
 
-Reduzir o tempo e o retrabalho na emissão de propostas comerciais, garantindo padronização visual e de conteúdo, e preparar a base para automações futuras (CRM, WhatsApp, IA).
+Reduzir o tempo e o retrabalho na emissão de documentos comerciais, garantindo padronização visual e de conteúdo, e preparar a base para automações futuras (CRM, WhatsApp, IA) e para novos tipos de documento além da proposta.
 
 ## Arquitetura proposta
 
-Arquitetura modular, separando claramente **dados de entrada**, **regras de negócio** e **apresentação**:
+Arquitetura modular, com separação rígida entre **dados de entrada**, **regras de negócio** e **apresentação**, e um fluxo de dados obrigatório para todo documento gerado:
 
 ```
-Entrada de dados (dados da viagem)
-        │
-        ▼
-  src/models/        → valida e estrutura os dados da proposta
-        │
-        ▼
-  src/core/          → regras de negócio (cálculos, validações, nomenclatura)
-        │
-        ▼
-  src/generators/    → um gerador por formato de saída
-        │
-        ├── generator_html.*      → templates/html/      → output/html/
-        ├── generator_pdf.*       → templates/pdf/       → output/pdf/
-        ├── generator_whatsapp.*  → templates/whatsapp/
-        ├── generator_email.*     → templates/email/
-        └── generator_crm.*       → dados estruturados (JSON) → output/json/
+Entrada dos dados → Validação → Regras de negócio → Enriquecimento → Modelo único (JSON) → HTML / PDF / WhatsApp / E-mail / CRM
 ```
 
-Cada gerador consome o mesmo objeto de proposta (vindo de `src/models/`) e é responsável apenas pela apresentação no seu formato — a regra de negócio (o "o quê") fica em `src/core/`, nunca duplicada entre os geradores.
+A descrição completa da arquitetura — módulos, camadas, responsabilidades e estratégia de expansão para novos tipos de documento — está em **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, a referência técnica principal do projeto.
 
 ## Tecnologias sugeridas
 
@@ -52,34 +37,39 @@ Essas escolhas serão revisitadas e confirmadas no Sprint 1, quando o modelo de 
 ```
 motor-propostas-027/
 ├── README.md              → este arquivo
-├── PRD.md                 → requisitos do produto
+├── PRD.md                 → requisitos do produto (Motor de Propostas, módulo 1)
 ├── ROADMAP.md             → plano de sprints
 ├── CHANGELOG.md           → histórico de mudanças
 ├── .gitignore
 ├── assets/
 │   ├── logo/              → logomarca da 027 Viagens
-│   ├── imagens/           → imagens usadas nas propostas (destinos, hotéis, etc.)
+│   ├── imagens/           → imagens usadas nos documentos (destinos, hotéis, etc.)
 │   └── papel_timbrado/    → arte-base do papel timbrado para o PDF
+├── config/                → dados institucionais (CNPJ, contatos, pagamento, políticas) — nunca hardcoded
+├── components/            → blocos visuais reutilizáveis (cabeçalho, bloco de voo, assinatura, etc.), por formato
+├── content/               → textos institucionais/comerciais (políticas, e-mails-modelo, FAQ, diferenciais)
 ├── docs/
+│   ├── ARCHITECTURE.md    → referência técnica principal
 │   └── decisoes/          → registro de decisões técnicas importantes (ADRs)
-├── prompts/                → prompts (ex: "Prompt Mestre" de geração assistida por IA)
+├── examples/              → exemplos de entrada/saída para referência e testes
+├── output/                → saídas geradas, por módulo e formato (não versionado — ver .gitignore)
+│   └── propostas/
+├── prompts/               → prompts (ex: "Prompt Mestre" de geração assistida por IA)
+├── schemas/               → modelos JSON dos dados (proposta, cliente, viagem, pagamento, empresa...)
+├── scripts/               → scripts utilitários (setup, geração em lote, etc.)
+├── src/
+│   ├── models/            → carregamento/validação dos dados, compartilhado entre módulos
+│   ├── core/              → regras de negócio, compartilhado entre módulos
+│   ├── generators/
+│   │   └── propostas/     → geradores do Motor de Propostas (módulo 1)
+│   └── utils/             → funções auxiliares compartilhadas
 ├── templates/
-│   ├── html/               → template da proposta em HTML
-│   ├── pdf/                → template do PDF em papel timbrado
-│   ├── whatsapp/            → template da mensagem de WhatsApp
-│   └── email/               → template do e-mail de envio
-├── examples/                → exemplos de entrada/saída para referência e testes
-├── output/                  → saídas geradas (não versionado — ver .gitignore)
-│   ├── html/
-│   ├── pdf/
-│   └── json/
-├── scripts/                 → scripts utilitários (setup, geração em lote, etc.)
-└── src/
-    ├── models/              → estrutura/validação dos dados da proposta
-    ├── core/                → regras de negócio (separadas da apresentação)
-    ├── generators/           → geradores de cada formato de saída
-    └── utils/                → funções auxiliares compartilhadas
+│   └── propostas/         → templates do Motor de Propostas, por formato (html, pdf, whatsapp, email)
+└── tests/
+    └── casos/             → viagens fictícias para teste (corporativa, lazer, internacional, grupo, religioso, Disney, cruzeiro)
 ```
+
+Detalhes de cada camada, incluindo como adicionar um novo tipo de documento sem refatorar os módulos existentes, estão em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Roadmap resumido
 
@@ -95,7 +85,7 @@ motor-propostas-027/
 | 7 | Integração com WhatsApp |
 | 8 | Melhorias e IA |
 
-Detalhes de objetivos, entregáveis e critérios de aceite de cada sprint estão em [ROADMAP.md](ROADMAP.md).
+Detalhes de objetivos, entregáveis e critérios de aceite de cada sprint estão em [ROADMAP.md](ROADMAP.md). O Roadmap cobre o Motor de Propostas (módulo 1); módulos futuros (contratos, vouchers, etc.) terão seu próprio ciclo de sprints quando priorizados.
 
 ## Instruções para desenvolvimento
 
@@ -103,15 +93,18 @@ Detalhes de objetivos, entregáveis e critérios de aceite de cada sprint estão
 
 Convenções a seguir em todo o projeto:
 
-- **Arquitetura modular** — cada módulo com responsabilidade única.
+- **Arquitetura modular** — cada módulo de documento (proposta, contrato, voucher...) é independente dos demais, dependendo só das camadas compartilhadas (`config/`, `components/`, `content/`, `src/core/`, `src/models/`).
 - **Sem duplicação de código** — regra de negócio vive em um único lugar (`src/core/`).
 - **Decisões importantes documentadas** em `docs/decisoes/`.
-- **Separação entre regra de negócio e apresentação** — `src/core/` nunca deve conter HTML/texto de template; `templates/` nunca deve conter lógica de cálculo ou validação.
+- **Separação entre regra de negócio e apresentação** — `src/core/` nunca deve conter HTML/texto de template; `templates/` e `components/` nunca devem conter lógica de cálculo ou validação.
+- **Nada institucional fixo no código** — dados da empresa em `config/`, textos institucionais em `content/`.
+- **Fluxo de dados obrigatório** — todo documento segue entrada → validação → regras de negócio → enriquecimento → modelo único → saídas (ver `docs/ARCHITECTURE.md`).
 - **Nomes claros** para arquivos e diretórios, em português, consistentes com o domínio do negócio (viagem, proposta, cliente).
 - Toda mudança relevante deve ser registrada em [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentos do projeto
 
-- [PRD.md](PRD.md) — requisitos completos do produto
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — arquitetura completa da plataforma
+- [PRD.md](PRD.md) — requisitos completos do produto (Motor de Propostas)
 - [ROADMAP.md](ROADMAP.md) — plano de sprints detalhado
 - [CHANGELOG.md](CHANGELOG.md) — histórico de mudanças

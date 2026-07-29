@@ -144,3 +144,28 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 **Critérios de aceite:**
 - Melhorias entregues não quebram nenhuma funcionalidade validada nos sprints anteriores.
+
+---
+
+## Visão de longo prazo (pós Motor de Propostas)
+
+Os sprints acima cobrem o **Motor de Propostas** (módulo 1 da Plataforma de Documentos Comerciais — ver `docs/vision.md` e `docs/ARCHITECTURE.md`). Sem compromisso de prazo, e priorizados conforme a necessidade do negócio, os próximos ciclos de desenvolvimento devem cobrir:
+
+**Novos módulos de documento** (mesmo padrão do Motor de Propostas — schema + template + gerador, ver `ARCHITECTURE.md` seção 7):
+- Motor de Contratos
+- Motor de Vouchers
+- Motor de Itinerários
+- Confirmações de Reserva
+- Recibos
+- Checklists do Passageiro
+- Relatórios
+
+**Capacidades de plataforma** (consomem o Modelo Universal já produzido pelos módulos de documento):
+- CRM
+- Portal Administrativo
+- Portal do Cliente
+- IA Comercial (construída sobre a estrutura preparada em `ai/`)
+- Automação de WhatsApp
+- Integrações externas (além de Coda)
+
+Cada item desta lista, quando priorizado, ganha seu próprio ciclo de sprints detalhado (objetivo, entregáveis, critérios de aceite), seguindo a mesma estrutura usada acima para o Motor de Propostas.

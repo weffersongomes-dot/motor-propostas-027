@@ -15,10 +15,10 @@ Reduzir o tempo e o retrabalho na emissão de documentos comerciais, garantindo 
 Arquitetura modular, com separação rígida entre **dados de entrada**, **regras de negócio** e **apresentação**, e um fluxo de dados obrigatório para todo documento gerado:
 
 ```
-Entrada dos dados → Validação → Regras de negócio → Enriquecimento → Modelo único (JSON) → HTML / PDF / WhatsApp / E-mail / CRM
+Entrada → Validação → Normalização → Regras de negócio → Enriquecimento → Modelo Universal → Geradores → PDF / HTML / WhatsApp / E-mail / CRM
 ```
 
-A descrição completa da arquitetura — módulos, camadas, responsabilidades e estratégia de expansão para novos tipos de documento — está em **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, a referência técnica principal do projeto.
+A descrição completa da arquitetura — módulos, camadas, responsabilidades e estratégia de expansão para novos tipos de documento — está em **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, a referência técnica principal do projeto. A visão de produto por trás dessa arquitetura está em [docs/vision.md](docs/vision.md); as regras comerciais conhecidas em [docs/business-rules.md](docs/business-rules.md); e a especificação do objeto central do Motor de Propostas em [docs/universal-proposal-model.md](docs/universal-proposal-model.md).
 
 ## Tecnologias sugeridas
 
@@ -41,6 +41,7 @@ motor-propostas-027/
 ├── ROADMAP.md             → plano de sprints
 ├── CHANGELOG.md           → histórico de mudanças
 ├── .gitignore
+├── ai/                    → preparação para IA Comercial (sem implementação ainda)
 ├── assets/
 │   ├── logo/              → logomarca da 027 Viagens
 │   ├── imagens/           → imagens usadas nos documentos (destinos, hotéis, etc.)
@@ -50,6 +51,9 @@ motor-propostas-027/
 ├── content/               → textos institucionais/comerciais (políticas, e-mails-modelo, FAQ, diferenciais)
 ├── docs/
 │   ├── ARCHITECTURE.md    → referência técnica principal
+│   ├── vision.md          → problema, público, visão de 5 anos, princípios inquebráveis
+│   ├── business-rules.md  → regras comerciais conhecidas da 027 Viagens
+│   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
 │   └── decisoes/          → registro de decisões técnicas importantes (ADRs)
 ├── examples/              → exemplos de entrada/saída para referência e testes
 ├── output/                → saídas geradas, por módulo e formato (não versionado — ver .gitignore)
@@ -104,7 +108,10 @@ Convenções a seguir em todo o projeto:
 
 ## Documentos do projeto
 
+- [docs/vision.md](docs/vision.md) — visão de produto, público e princípios inquebráveis
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — arquitetura completa da plataforma
+- [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas da 027 Viagens
+- [docs/universal-proposal-model.md](docs/universal-proposal-model.md) — especificação do Modelo Universal da Proposta
 - [PRD.md](PRD.md) — requisitos completos do produto (Motor de Propostas)
 - [ROADMAP.md](ROADMAP.md) — plano de sprints detalhado
 - [CHANGELOG.md](CHANGELOG.md) — histórico de mudanças

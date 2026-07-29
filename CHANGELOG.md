@@ -6,6 +6,19 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/), e o
 
 ## [Unreleased]
 
+### Added (Refinamento arquitetural pré-Sprint 1A)
+- `docs/domain-map.md` — representação textual das entidades do domínio (Empresa, Consultor, Cliente, Passageiro, Fornecedor, Viagem, Proposta, Versão, Documento, Emissão, Financeiro, Metadata) e seus relacionamentos/dependências.
+- ADR [0005](docs/decisoes/0005-refinamento-pre-sprint-1a.md) registrando: divisão do Sprint 1 em 1A/1B, modelagem de proposta por dimensões, etapa de Qualificação, adoção formal da Linguagem Ubíqua.
+
+### Changed (Refinamento arquitetural pré-Sprint 1A)
+- `ROADMAP.md`: Sprint 1 dividida em **Sprint 1A — Modelagem do Domínio** (objetos de domínio, sem validação/regra/enum) e **Sprint 1B — Evolução do Modelo** (validações, obrigatoriedades, enums, regras).
+- `docs/proposal-types.md` reescrito: "Tipo de Proposta" único substituído por quatro dimensões combináveis — Destino, Formato, Finalidade, Produto — já que uma proposta pode ser, por exemplo, Internacional + Grupo + Religiosa simultaneamente.
+- `docs/proposal-lifecycle.md`: nova etapa **Qualificação** entre Lead e Primeiro contato.
+- `docs/business-rules.md` reorganizado em quatro grupos: Regras Comerciais, Regras Financeiras, Regras Operacionais e Regras Legais (as 16 seções originais mantidas, apenas reagrupadas).
+- `docs/discovery-workshop.md` reestruturado em cinco workshops independentes (Atendimento, Financeiro, Operação, Emissão, Pós-venda), cada um com objetivo, participantes, perguntas, documentos atualizados ao final e decisões esperadas.
+- `docs/glossary.md` evoluído para funcionar explicitamente como Linguagem Ubíqua (DDD): cada termo agora tem definição oficial, contexto de uso, sinônimos aceitos, termos proibidos e impacto no código/documentação.
+- `docs/ARCHITECTURE.md` e `README.md` atualizados com referências a `domain-map.md` e à divisão Sprint 1A/1B.
+
 ### Added (Sprint 0.5 — Engenharia Comercial e Descoberta do Negócio)
 - `docs/glossary.md` — linguagem ubíqua (DDD): conceitos de domínio da 027 Viagens (Lead, Cliente, Passageiro, Consultor, Fornecedor, Cotação, Proposta, Versão, Status, Aprovação, Emissão, etc.), a validar com o negócio.
 - `docs/proposal-types.md` — estrutura + perguntas para os 10 tipos de proposta previstos (Nacional, Internacional, Corporativo, Religioso, Grupos, Disney, Cruzeiros, Individual, Incentivo, Outros), incluindo pergunta estrutural sobre tipos combináveis.

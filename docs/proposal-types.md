@@ -1,146 +1,82 @@
-# Tipos de Proposta
+# Classificação da Proposta — Modelo por Dimensões
 
-Mapeamento dos tipos de `Proposta` (ver `glossary.md`) que a plataforma deverá suportar. Nenhum campo abaixo foi confirmado com o negócio — este documento registra **estrutura e perguntas**, não respostas. Onde uma descrição aparece, é apenas a definição genérica do termo no mercado de viagens, não uma regra da 027 Viagens.
+> **Revisão:** a versão anterior deste documento tratava "Tipo de Proposta" como um valor único (Nacional, Internacional, Corporativo, Religioso, Grupos, Disney, Cruzeiros, Individual, Incentivo, Outros), mutuamente exclusivos. A revisão arquitetural identificou que isso mistura conceitos independentes — uma proposta pode ser **Internacional + Grupo + Religiosa** ao mesmo tempo. Esta decisão está registrada em [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md).
 
-A lista de tipos abaixo é o ponto de partida sugerido no planejamento do projeto — ela própria precisa ser validada: pode haver tipos que a 027 não usa, e tipos reais da operação que não estão nesta lista.
+Uma `Proposta` (ver `glossary.md`) não tem um "tipo" único. Ela é classificada em **quatro dimensões independentes**, e pode assumir um ou mais valores em cada uma. Nenhum valor abaixo está confirmado com o negócio — este documento registra estrutura e perguntas, como no levantamento original.
 
-> **Pergunta geral (antes de tudo):** esta lista de 10 tipos corresponde a como a 027 Viagens realmente classifica suas propostas hoje? Existe algum tipo usado na prática que não está aqui? Algum destes nunca é usado?
+## As quatro dimensões
 
----
+| Dimensão | Pergunta que responde | Valores previstos |
+|---|---|---|
+| **Destino** | Para onde? | Nacional, Internacional |
+| **Formato** | Para quantas pessoas, vendido como quê? | Individual, Grupo |
+| **Finalidade** | Por que a viagem existe? | Lazer, Corporativo, Religioso, Incentivo |
+| **Produto** | O que exatamente está sendo vendido? | Pacote, Cruzeiro, Disney, Hotel, Aéreo, Personalizado, Outros |
 
-## Nacional
+Uma proposta real é a combinação de (ao menos) um valor de cada dimensão — por exemplo: *Internacional + Grupo + Religioso + Pacote*, ou *Nacional + Individual + Lazer + Aéreo*. As regras de negócio (`business-rules.md`), textos (`content/`) e diferenciais aplicáveis a uma proposta podem depender de qualquer combinação dessas dimensões, não de um "tipo" isolado.
 
-- **Descrição:** viagem com destino dentro do território brasileiro.
-- **Objetivo:** *a confirmar — o que diferencia comercialmente uma proposta nacional de uma internacional, além do destino?*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - Existe alguma documentação/aviso obrigatório específico para viagem nacional (ex: documento de identidade para menores)?
-  - Câmbio/moeda nunca é relevante aqui, correto?
-  - Uma viagem nacional pode ter as mesmas particularidades de "Grupos", "Corporativo" etc. simultaneamente? (ver pergunta de sobreposição de tipos, no final deste documento)
-
-## Internacional
-
-- **Descrição:** viagem com destino fora do Brasil.
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar — hipótese de mercado: passaporte, visto, validade mínima de documento, mas precisa ser confirmado como regra real da 027.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - Quais documentos são sempre exigidos/mencionados (passaporte, visto, vacinas)? Varia por destino?
-  - Seguro viagem é obrigatório para este tipo? (ver `business-rules.md`, seção Seguros)
-  - Como o câmbio/moeda de cobrança é tratado — sempre em reais, ou pode ser cotado na moeda do destino?
-  - Existe uma checklist específica de documentação internacional hoje (mesmo que informal)?
-
-## Corporativo
-
-- **Descrição:** viagem contratada por uma empresa (pessoa jurídica), tipicamente para funcionários ou convidados.
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar — hipótese: dados da empresa contratante, centro de custo, política de viagem corporativa.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - `Cliente` (quem contrata/paga) e `Passageiro` (quem viaja) são sempre diferentes aqui? Como isso é tratado hoje?
-  - Existe faturamento/nota fiscal com regras próprias para corporativo?
-  - Existem condições de pagamento diferenciadas (prazo maior, faturado)?
-  - Existe um consultor/atendimento dedicado a contas corporativas?
-
-## Religioso
-
-- **Descrição:** viagem organizada em torno de um roteiro ou motivação religiosa (ex: peregrinação, encontro de grupo religioso).
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - Este tipo está sempre associado a "Grupos", ou pode ser uma viagem individual/religiosa?
-  - Existem parcerias fixas (roteiros fechados, lideranças religiosas, operadoras específicas) que deveriam aparecer na proposta?
-  - Existe um formato de proposta diferente (ex: foco em roteiro espiritual, menos em "venda") para este tipo?
-
-## Grupos
-
-- **Descrição:** viagem vendida para múltiplos passageiros como um pacote único.
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar — hipótese: número mínimo/máximo de participantes, lista de passageiros, responsável pelo grupo.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - A partir de quantos passageiros uma proposta passa a ser tratada como "Grupo"? (ver `business-rules.md`, seção Grupos)
-  - "Grupos" é um tipo independente ou um atributo que pode se combinar com Nacional/Internacional/Religioso/Corporativo? (ver pergunta de sobreposição, no final)
-  - Existe um responsável único pelo grupo (quem assina/aprova) mesmo havendo vários passageiros?
-  - Existe desconto ou condição comercial padrão por volume?
-
-## Disney
-
-- **Descrição:** viagem com destino/roteiro centrado nos parques Disney (tipicamente Orlando).
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar — hipótese: ingressos de parque, datas de parque específicas, hospedagem dentro/fora do complexo.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - Por que "Disney" é um tipo à parte e não apenas uma viagem Internacional de lazer? Há particularidade comercial suficiente (parceria, comissionamento, pacote fixo) para justificar isso?
-  - Existem parceiros/operadoras fixas para esse tipo?
-  - Existe um roteiro/checklist padrão (ingressos, datas de parque, transfer) específico?
-
-## Cruzeiros
-
-- **Descrição:** viagem realizada a bordo de um navio de cruzeiro.
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar — hipótese: cabine (em vez de quarto), companhia marítima, portos de embarque/desembarque, escalas.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar — hipótese: "hospedagem" vira "cabine", pode não haver "voos" se o embarque for nacional.*
-- **Dúvidas para o negócio:**
-  - O Modelo Universal da Proposta (`universal-proposal-model.md`) tem uma seção `hospedagem`; para cruzeiro, isso deveria virar/incluir uma seção de cabine, ou hospedagem serve para ambos com campos diferentes?
-  - Existem regras comerciais específicas de cruzeiro (política de cancelamento costuma ser diferente de hotel/aéreo)?
-
-## Individual
-
-- **Descrição:** viagem vendida para um único passageiro ou uma única família/grupo pequeno, sem as características de "Grupos".
-- **Objetivo:** *a confirmar — talvez este seja o "tipo padrão" e os demais sejam exceções a ele; precisa confirmar com o negócio.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar.*
-- **Dúvidas para o negócio:**
-  - "Individual" é realmente um tipo distinto, ou é a ausência dos demais tipos (ou seja, todo tipo tem "Individual" como padrão até que outro se aplique)?
-
-## Incentivo
-
-- **Descrição:** viagem oferecida por uma empresa como prêmio/incentivo a funcionários, parceiros ou clientes (viagem de incentivo corporativo).
-- **Objetivo:** *a confirmar.*
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** *a confirmar — como se diferencia de "Corporativo"?*
-- **Dúvidas para o negócio:**
-  - "Incentivo" e "Corporativo" são tipos diferentes ou "Incentivo" é um subtipo de "Corporativo"?
-  - Quem é o `Cliente` neste caso — a empresa que oferece o prêmio, ou o passageiro premiado?
-  - Existe um formato de proposta diferenciado (ex: sem preço visível ao passageiro final)?
-
-## Outros
-
-- **Descrição:** categoria residual para propostas que não se encaixam nos tipos acima.
-- **Objetivo:** evitar que a plataforma trave diante de um tipo de viagem não previsto.
-- **Características:** *a confirmar.*
-- **Informações obrigatórias:** *a confirmar.*
-- **Informações opcionais:** *a confirmar.*
-- **Diferenças em relação aos demais tipos:** por definição, não segue nenhuma regra específica dos demais tipos.
-- **Dúvidas para o negócio:**
-  - Com que frequência a operação real cai em "Outros"? Se for frequente, é sinal de que falta um tipo nesta lista.
-  - Deve haver uma revisão periódica de propostas marcadas como "Outros" para identificar novos tipos a formalizar?
+> **Pergunta geral:** essas quatro dimensões e seus valores cobrem como a 027 Viagens realmente pensa uma venda? Falta alguma dimensão (ex: "Duração", "Sazonalidade")? Algum valor deveria estar em outra dimensão?
 
 ---
 
-## Pergunta estrutural (afeta o Modelo Universal)
+## Dimensão: Destino
 
-Vários tipos acima parecem **combináveis** entre si (ex: um grupo religioso internacional; uma viagem corporativa de incentivo nacional) em vez de mutuamente exclusivos.
+- **Nacional** — viagem com destino dentro do território brasileiro.
+- **Internacional** — viagem com destino fora do Brasil.
 
-> **Pergunta para o negócio:** `Tipo de Proposta` deve ser um valor único por proposta (ex: só "Grupos") ou a proposta pode ter múltiplas classificações simultâneas (ex: "Grupos" + "Internacional" + "Religioso")? Esta resposta muda diretamente como o campo correspondente será modelado em `schemas/proposta.schema.json` no Sprint 1 — **não deve ser decidida sem essa confirmação.**
+**Dúvidas para o negócio:**
+- Documentação/avisos obrigatórios variam por Destino (ex: passaporte, visto, seguro) — que particularidades entram na proposta em cada caso? (ver `business-rules.md`, Viagens internacionais/Seguros)
+- Câmbio/moeda de cobrança: sempre em reais, mesmo para Internacional?
+- Uma viagem pode ter trechos Nacionais e Internacionais na mesma proposta (ex: voo doméstico de conexão)? Isso muda a classificação de Destino da proposta inteira?
+
+## Dimensão: Formato
+
+- **Individual** — vendida para uma pessoa ou família/grupo pequeno.
+- **Grupo** — vendida para múltiplos passageiros como um pacote único.
+
+**Dúvidas para o negócio:**
+- A partir de quantos passageiros uma proposta passa a ser "Grupo"? (ver `business-rules.md`, Grupos)
+- "Grupo" sempre implica um responsável único pelo grupo (quem assina/aprova), mesmo com vários passageiros?
+- Existe desconto ou condição comercial padrão associada a Formato = Grupo?
+
+## Dimensão: Finalidade
+
+- **Lazer** — viagem motivada por descanso/turismo pessoal.
+- **Corporativo** — viagem contratada por uma empresa (pessoa jurídica).
+- **Religioso** — viagem organizada em torno de um roteiro ou motivação religiosa.
+- **Incentivo** — viagem oferecida por uma empresa como prêmio a funcionários/parceiros/clientes.
+
+**Dúvidas para o negócio:**
+- `Cliente` (quem contrata/paga) e `Passageiro` (quem viaja) são sempre diferentes quando Finalidade = Corporativo ou Incentivo? (ver `domain-map.md`)
+- "Incentivo" é tratado como uma variação de "Corporativo" na prática, ou são comercialmente muito diferentes (ex: quem vê o preço)?
+- Existem parcerias fixas (roteiros, lideranças) associadas a Finalidade = Religioso?
+- Existe faturamento/nota fiscal com regras próprias quando Finalidade = Corporativo? (ver `business-rules.md`, Corporativo)
+
+## Dimensão: Produto
+
+- **Pacote** — combinação fechada de serviços (aéreo + hospedagem + traslados, por exemplo).
+- **Cruzeiro** — viagem a bordo de um navio.
+- **Disney** — roteiro centrado nos parques Disney.
+- **Hotel** — apenas hospedagem.
+- **Aéreo** — apenas passagem aérea.
+- **Personalizado** — combinação sob medida, fora de um pacote fechado.
+- **Outros** — categoria residual.
+
+**Dúvidas para o negócio:**
+- "Disney" continua justificando ser um valor próprio de Produto (em vez de, por exemplo, um Pacote com característica de Finalidade = Lazer)? Há particularidade comercial suficiente (parceria, comissionamento)?
+- Para Produto = Cruzeiro, a seção `hospedagem` do Modelo Universal (`universal-proposal-model.md`) precisa virar/incluir uma seção de cabine — confirmar antes do Sprint 1B.
+- Uma proposta pode combinar mais de um valor de Produto (ex: Aéreo + Hotel vendidos separadamente, mas na mesma proposta)? Isso é "Pacote" por definição, ou pode ser listado como Produto múltiplo?
+- Com que frequência a operação real cai em Produto = Outros? Se for frequente, falta um valor nesta lista.
+
+---
+
+## Impacto na modelagem (Sprint 1A/1B)
+
+- **Sprint 1A (Modelagem do Domínio):** o objeto `Proposta` deve representar as quatro dimensões como atributos próprios (ex: uma lista/conjunto por proposta), sem ainda validar quais combinações são permitidas.
+- **Sprint 1B (Evolução do Modelo):** é onde entram os enums de cada dimensão e as regras de combinação (ex: "Formato = Grupo exige um campo de responsável pelo grupo"), a partir das respostas obtidas no Workshop de Descoberta (`discovery-workshop.md`).
+
+## Relação com outros documentos
+
+- `docs/business-rules.md` — regras que dependem de combinações de dimensões (ex: Seguros para Destino = Internacional) devem referenciar a dimensão e o valor específico, não mais um "tipo" solto.
+- `docs/glossary.md` — os termos "Destino", "Formato", "Finalidade" e "Produto" e seus valores devem ser adicionados como conceitos de domínio.
+- `tests/casos/` — os casos fictícios (corporativa, lazer, internacional, grupo, religioso, Disney, cruzeiro) devem ser revistos como combinações de dimensões, não como tipos isolados (ex: o caso "grupo religioso internacional" passa a ser um único caso de teste combinando três dimensões, não três casos separados).

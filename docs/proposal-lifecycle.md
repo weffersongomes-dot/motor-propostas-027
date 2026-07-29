@@ -5,6 +5,8 @@ Documenta o percurso completo de uma `Proposta` (ver `glossary.md`), do primeiro
 ```
 Lead
   ↓
+Qualificação
+  ↓
 Primeiro contato
   ↓
 Levantamento das necessidades
@@ -43,15 +45,28 @@ Pós-venda
 - **Documentos envolvidos:** *a confirmar — existe algum registro do lead hoje (planilha, CRM informal)?*
 - **Possíveis exceções:** *a confirmar.*
 - **Dúvidas abertas:**
-  - Todo lead vira, obrigatoriamente, um "Primeiro contato", ou existe descarte antes disso?
+  - Todo lead passa, obrigatoriamente, por `Qualificação`, ou alguns já entram direto em "Primeiro contato" (ex: indicação de cliente antigo)?
   - Como/onde o lead é registrado hoje?
+
+## Qualificação
+
+- **Objetivo:** avaliar, antes de investir tempo em atendimento completo, se o `Lead` tem potencial real de virar venda (interesse genuíno, orçamento compatível, prazo viável).
+- **Entrada:** um `Lead` recém-registrado.
+- **Saída:** decisão de seguir para `Primeiro contato` ou descartar/arquivar o lead.
+- **Responsável:** *a confirmar.*
+- **Documentos envolvidos:** *a confirmar — existe algum critério/checklist de qualificação hoje, mesmo informal?*
+- **Possíveis exceções:** lead claramente fora do perfil de atendimento da 027 (ex: destino/orçamento incompatível); lead duplicado (já é cliente).
+- **Dúvidas abertas:**
+  - Essa etapa existe hoje como um passo separado, ou a qualificação acontece dentro do próprio Primeiro contato?
+  - Existem critérios objetivos de qualificação (ex: orçamento mínimo, prazo mínimo até a viagem), ou é sempre julgamento do consultor?
+  - Um lead "desqualificado" é descartado, arquivado para retomar depois, ou redirecionado (ex: para outro produto/consultor)?
 
 ## Primeiro contato
 
 - **Objetivo:** *a confirmar.*
-- **Entrada:** um `Lead`.
+- **Entrada:** um `Lead` já qualificado.
 - **Saída:** *a confirmar.*
-- **Responsável:** *a confirmar — sempre o `Consultor`, ou existe triagem prévia?*
+- **Responsável:** *a confirmar — sempre o `Consultor`, ou a triagem da Qualificação já define quem assume?*
 - **Documentos envolvidos:** *a confirmar.*
 - **Possíveis exceções:** *a confirmar — lead que não responde, número errado, etc.*
 - **Dúvidas abertas:**

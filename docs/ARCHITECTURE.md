@@ -2,7 +2,7 @@
 
 Este documento é a referência técnica principal do projeto. Qualquer decisão de implementação deve ser compatível com o que está descrito aqui; qualquer mudança relevante de arquitetura deve atualizar este documento e registrar o porquê em `docs/decisoes/`.
 
-Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (linguagem ubíqua/conceitos de domínio), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens), [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo) e os documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido.
+Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (Linguagem Ubíqua — conceitos de domínio, no padrão DDD), [`domain-map.md`](domain-map.md) (relacionamento entre as entidades do domínio), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens, organizadas em Comerciais/Financeiras/Operacionais/Legais) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo), além dos documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md) (classificação por dimensões), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido. A plataforma segue Domain-Driven Design: o domínio (glossário + mapa de domínio + regras) é descoberto e nomeado antes de qualquer modelagem técnica (ver [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md)).
 
 ## 1. Visão geral
 
@@ -141,8 +141,9 @@ motor-propostas-027/
 ├── docs/
 │   ├── ARCHITECTURE.md            → este documento
 │   ├── vision.md                  → problema, público, visão de 5 anos, princípios inquebráveis
-│   ├── glossary.md                → linguagem ubíqua (conceitos de domínio)
-│   ├── business-rules.md          → regras comerciais conhecidas da 027 Viagens
+│   ├── glossary.md                → Linguagem Ubíqua (conceitos de domínio, DDD)
+│   ├── domain-map.md              → relacionamento entre as entidades do domínio
+│   ├── business-rules.md          → regras comerciais (Comerciais/Financeiras/Operacionais/Legais)
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
 │   ├── proposal-types.md          → tipos de proposta suportados (descoberta de negócio)
 │   ├── proposal-lifecycle.md      → ciclo de vida da proposta (descoberta de negócio)

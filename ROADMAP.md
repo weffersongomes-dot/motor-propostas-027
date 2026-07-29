@@ -58,19 +58,36 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
-## Sprint 1 — Modelo de dados
+## Sprint 1A — Modelagem do Domínio
 
-**Objetivo:** definir a estrutura única de dados que alimenta todos os geradores de saída, com base no que for confirmado na Sprint 0.5 (tipos de proposta, ciclo de vida, status, ações, versionamento e linguagem ubíqua).
+**Objetivo:** representar os objetos de domínio da plataforma (as entidades do `docs/domain-map.md`), usando a terminologia definida em `docs/glossary.md` — **sem** validações, obrigatoriedades, enums ou regras de negócio. Só a forma dos conceitos, não o comportamento deles.
 
-**Pré-requisito:** Sprint 0.5 concluída — perguntas críticas do negócio (ver `docs/business-rules.md` e `docs/discovery-workshop.md`) respondidas o suficiente para que o Modelo Universal da Proposta represente a operação real.
+**Pré-requisito:** Sprint 0.5 concluída — glossário e mapa de domínio (`docs/domain-map.md`) estáveis o suficiente para nomear os objetos sem ambiguidade.
 
 **Entregáveis:**
-- Definição do schema da "proposta" (campos, tipos, obrigatoriedade) em `src/models/`, derivado de `docs/universal-proposal-model.md` já validado com as respostas da Sprint 0.5.
-- Exemplo de dado de entrada válido em `examples/`.
+- Objetos de domínio em `src/models/` para: Empresa, Cliente, Passageiro, Consultor, Fornecedor, Documento, Proposta, Viagem, Hospedagem, Voo, Serviço, Financeiro, Metadata — cada um apenas com seus atributos, sem lógica.
+- Exemplo de dado de entrada em `examples/`, usando esses objetos, ainda sem validação.
 - Documentação da decisão de linguagem/stack em `docs/decisoes/`.
 
 **Critérios de aceite:**
-- Um exemplo de viagem pode ser representado 100% pelo modelo de dados, sem campos "soltos" fora dele.
+- Todo objeto de domínio usa exatamente os nomes definidos em `docs/glossary.md` (Linguagem Ubíqua).
+- Nenhuma validação, obrigatoriedade, enum ou regra de negócio presente nesta etapa — isso é responsabilidade da Sprint 1B.
+- Um exemplo de viagem pode ser representado 100% pelos objetos de domínio, sem campos "soltos" fora deles.
+
+---
+
+## Sprint 1B — Evolução do Modelo
+
+**Objetivo:** adicionar aos objetos de domínio da Sprint 1A tudo que os torna um schema utilizável de verdade: validações, obrigatoriedades, enums, restrições, regras comerciais, financeiras e operacionais — com base no que for confirmado na Sprint 0.5 (tipos de proposta por dimensão, ciclo de vida, status, ações, versionamento, `business-rules.md`).
+
+**Pré-requisito:** Sprint 1A concluída; perguntas críticas do negócio (ver `docs/business-rules.md`, grupos Comerciais/Financeiras/Operacionais/Legais) respondidas o suficiente para que o Modelo Universal da Proposta represente a operação real.
+
+**Entregáveis:**
+- Schema formal da proposta (`schemas/proposta.schema.json`), com tipos, obrigatoriedade, enums e restrições, derivado dos objetos de domínio da Sprint 1A e de `docs/universal-proposal-model.md` já validado com as respostas da Sprint 0.5.
+- Validações correspondentes em `src/core/`.
+
+**Critérios de aceite:**
+- Todo campo obrigatório, enum e restrição tem lastro em uma regra registrada (não pendente) em `docs/business-rules.md`.
 - Modelo documentado e revisável sem depender de código.
 
 ---
@@ -80,7 +97,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 **Objetivo:** criar o template visual da proposta comercial em HTML.
 
 **Entregáveis:**
-- Template HTML em `templates/html/`, usando dados do modelo do Sprint 1.
+- Template HTML em `templates/html/`, usando dados do modelo da Sprint 1B.
 - Uso da identidade visual da 027 Viagens (`assets/logo/`, `assets/imagens/`).
 - Proposta de exemplo gerada em `output/html/` a partir de um dado de `examples/`.
 
@@ -112,7 +129,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 **Entregáveis:**
 - Prompt Mestre documentado em `prompts/`.
-- Exemplos de entrada em texto livre → saída no modelo de dados do Sprint 1, em `examples/`.
+- Exemplos de entrada em texto livre → saída no modelo de dados da Sprint 1B, em `examples/`.
 
 **Critérios de aceite:**
 - Prompt consegue transformar uma descrição em texto livre da viagem em dados estruturados válidos segundo o modelo.

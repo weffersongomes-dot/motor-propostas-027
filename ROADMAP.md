@@ -17,7 +17,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
-## Sprint 0.5 — Evolução para Plataforma de Documentos
+## Sprint 0.4 — Evolução para Plataforma de Documentos
 
 **Objetivo:** revisar a arquitetura antes de iniciar a implementação funcional, preparando a estrutura para futuros módulos além do Motor de Propostas (contratos, vouchers, itinerários, etc.), sem exigir refatorações grandes depois.
 
@@ -34,12 +34,38 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
-## Sprint 1 — Modelo de dados
+## Sprint 0.5 — Engenharia Comercial e Descoberta do Negócio
 
-**Objetivo:** definir a estrutura única de dados que alimenta todos os geradores de saída.
+**Objetivo:** transformar o conhecimento operacional da 027 Viagens (hoje concentrado no proprietário, Wefferson) em documentação técnica, usando um processo estruturado de descoberta de negócio (Business Analysis) e linguagem ubíqua (DDD) — sem escrever nenhum schema ou código.
 
 **Entregáveis:**
-- Definição do schema da "proposta" (campos, tipos, obrigatoriedade) em `src/models/`.
+- `docs/proposal-types.md` — tipos de proposta suportados, estrutura + perguntas (sem preencher o desconhecido).
+- `docs/proposal-lifecycle.md` — ciclo de vida completo, de Lead a Pós-venda.
+- `docs/proposal-status.md` — estados possíveis de uma proposta.
+- `docs/proposal-actions.md` — ações possíveis sobre uma proposta.
+- `docs/proposal-versioning.md` — estratégia de versionamento de propostas.
+- `docs/discovery-workshop.md` — roteiro estruturado de entrevistas com o proprietário.
+- `docs/glossary.md` — linguagem ubíqua (conceitos de domínio), atualizada continuamente.
+- `docs/business-rules.md` reorganizado por Objetivo / Regras conhecidas / Regras pendentes / Perguntas em aberto / Observações.
+- ADR [0004](docs/decisoes/0004-sprint-05-engenharia-comercial.md) registrando a decisão.
+
+**Critérios de aceite:**
+- Existe um roteiro completo de descoberta, pronto para conduzir com o proprietário.
+- Todas as dúvidas do negócio identificadas até aqui estão registradas nos documentos correspondentes, não perdidas em conversa.
+- Nenhuma regra de negócio foi inventada ou assumida como definitiva.
+- Toda informação pendente está claramente identificada como pendente.
+- Nenhum schema (`schemas/proposta.schema.json`) foi criado antes da conclusão desta sprint.
+
+---
+
+## Sprint 1 — Modelo de dados
+
+**Objetivo:** definir a estrutura única de dados que alimenta todos os geradores de saída, com base no que for confirmado na Sprint 0.5 (tipos de proposta, ciclo de vida, status, ações, versionamento e linguagem ubíqua).
+
+**Pré-requisito:** Sprint 0.5 concluída — perguntas críticas do negócio (ver `docs/business-rules.md` e `docs/discovery-workshop.md`) respondidas o suficiente para que o Modelo Universal da Proposta represente a operação real.
+
+**Entregáveis:**
+- Definição do schema da "proposta" (campos, tipos, obrigatoriedade) em `src/models/`, derivado de `docs/universal-proposal-model.md` já validado com as respostas da Sprint 0.5.
 - Exemplo de dado de entrada válido em `examples/`.
 - Documentação da decisão de linguagem/stack em `docs/decisoes/`.
 

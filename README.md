@@ -52,8 +52,12 @@ motor-propostas-027/
 ├── docs/
 │   ├── ARCHITECTURE.md    → referência técnica principal
 │   ├── vision.md          → problema, público, visão de 5 anos, princípios inquebráveis
+│   ├── glossary.md        → linguagem ubíqua (conceitos de domínio)
 │   ├── business-rules.md  → regras comerciais conhecidas da 027 Viagens
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
+│   ├── proposal-types.md, proposal-lifecycle.md, proposal-status.md,
+│   │   proposal-actions.md, proposal-versioning.md → descoberta de negócio (Sprint 0.5)
+│   ├── discovery-workshop.md → roteiro de entrevistas com o negócio
 │   └── decisoes/          → registro de decisões técnicas importantes (ADRs)
 ├── examples/              → exemplos de entrada/saída para referência e testes
 ├── output/                → saídas geradas, por módulo e formato (não versionado — ver .gitignore)
@@ -110,8 +114,11 @@ Convenções a seguir em todo o projeto:
 
 - [docs/vision.md](docs/vision.md) — visão de produto, público e princípios inquebráveis
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — arquitetura completa da plataforma
-- [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas da 027 Viagens
+- [docs/glossary.md](docs/glossary.md) — linguagem ubíqua (conceitos de domínio, DDD)
+- [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas (e pendentes) da 027 Viagens
 - [docs/universal-proposal-model.md](docs/universal-proposal-model.md) — especificação do Modelo Universal da Proposta
+- Descoberta de negócio (Sprint 0.5): [docs/proposal-types.md](docs/proposal-types.md), [docs/proposal-lifecycle.md](docs/proposal-lifecycle.md), [docs/proposal-status.md](docs/proposal-status.md), [docs/proposal-actions.md](docs/proposal-actions.md), [docs/proposal-versioning.md](docs/proposal-versioning.md)
+- [docs/discovery-workshop.md](docs/discovery-workshop.md) — roteiro de entrevistas com o negócio
 - [PRD.md](PRD.md) — requisitos completos do produto (Motor de Propostas)
 - [ROADMAP.md](ROADMAP.md) — plano de sprints detalhado
 - [CHANGELOG.md](CHANGELOG.md) — histórico de mudanças

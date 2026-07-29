@@ -2,7 +2,7 @@
 
 Este documento é a referência técnica principal do projeto. Qualquer decisão de implementação deve ser compatível com o que está descrito aqui; qualquer mudança relevante de arquitetura deve atualizar este documento e registrar o porquê em `docs/decisoes/`.
 
-Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo).
+Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (linguagem ubíqua/conceitos de domínio), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens), [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo) e os documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido.
 
 ## 1. Visão geral
 
@@ -141,8 +141,15 @@ motor-propostas-027/
 ├── docs/
 │   ├── ARCHITECTURE.md            → este documento
 │   ├── vision.md                  → problema, público, visão de 5 anos, princípios inquebráveis
+│   ├── glossary.md                → linguagem ubíqua (conceitos de domínio)
 │   ├── business-rules.md          → regras comerciais conhecidas da 027 Viagens
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
+│   ├── proposal-types.md          → tipos de proposta suportados (descoberta de negócio)
+│   ├── proposal-lifecycle.md      → ciclo de vida da proposta (descoberta de negócio)
+│   ├── proposal-status.md         → estados possíveis da proposta (descoberta de negócio)
+│   ├── proposal-actions.md        → ações possíveis sobre a proposta (descoberta de negócio)
+│   ├── proposal-versioning.md     → estratégia de versionamento da proposta
+│   ├── discovery-workshop.md      → roteiro de entrevistas com o negócio
 │   └── decisoes/                  → ADRs (decisões técnicas registradas)
 ├── examples/                      → exemplos de entrada/saída
 ├── output/                        → artefatos gerados, por módulo e formato (não versionado)

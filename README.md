@@ -56,9 +56,11 @@ motor-propostas-027/
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
 │   ├── proposal-types.md, proposal-lifecycle.md, proposal-status.md,
 │   │   proposal-actions.md, proposal-versioning.md → descoberta de negócio (Sprint 0.5)
-│   ├── discovery-workshop.md → roteiro de entrevistas com o negócio
+│   ├── discovery-workshop.md → roteiro de entrevistas por casos reais (Sprint B1)
+│   ├── business-cases/    → histórias reais de operações (vazias, aguardando entrevista)
 │   └── decisoes/          → registro de decisões técnicas importantes (ADRs)
 ├── examples/              → exemplos de entrada/saída para referência e testes
+├── knowledge/             → base de conhecimento de referência (fornecedores, destinos, pagamentos) — vazia
 ├── output/                → saídas geradas, por módulo e formato (não versionado — ver .gitignore)
 │   └── propostas/
 ├── prompts/               → prompts (ex: "Prompt Mestre" de geração assistida por IA)
@@ -87,7 +89,9 @@ Detalhes de cada camada, incluindo como adicionar um novo tipo de documento sem 
 | 0.4 | Evolução para Plataforma de Documentos |
 | 0.5 | Engenharia Comercial e Descoberta do Negócio |
 | 1A | Modelagem do Domínio (DDD) |
-| 1B | Evolução do Modelo (validações, enums, regras) |
+| 1B | Invariantes, Validações e Modelo Executável |
+| B1 | Descoberta Profunda do Negócio (casos reais) |
+| 1C | Regras Comerciais (proposta, não iniciada) |
 | 2 | Layout HTML da proposta |
 | 3 | Geração do PDF em papel timbrado |
 | 4 | Prompt Mestre (geração assistida por IA) |
@@ -130,7 +134,9 @@ Convenções a seguir em todo o projeto:
 - [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas (e pendentes) da 027 Viagens
 - [docs/universal-proposal-model.md](docs/universal-proposal-model.md) — especificação do Modelo Universal da Proposta
 - Descoberta de negócio (Sprint 0.5): [docs/proposal-types.md](docs/proposal-types.md), [docs/proposal-lifecycle.md](docs/proposal-lifecycle.md), [docs/proposal-status.md](docs/proposal-status.md), [docs/proposal-actions.md](docs/proposal-actions.md), [docs/proposal-versioning.md](docs/proposal-versioning.md)
-- [docs/discovery-workshop.md](docs/discovery-workshop.md) — roteiro de entrevistas com o negócio
+- [docs/discovery-workshop.md](docs/discovery-workshop.md) — roteiro de entrevistas por casos reais (Sprint B1)
+- [docs/business-cases/](docs/business-cases/) — histórias reais de operações (vazias, aguardando entrevista)
+- [knowledge/](knowledge/) — base de conhecimento de referência (fornecedores, destinos, pagamentos)
 - [PRD.md](PRD.md) — requisitos completos do produto (Motor de Propostas)
 - [ROADMAP.md](ROADMAP.md) — plano de sprints detalhado
 - [CHANGELOG.md](CHANGELOG.md) — histórico de mudanças

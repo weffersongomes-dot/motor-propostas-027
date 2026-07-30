@@ -6,6 +6,16 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/), e o
 
 ## [Unreleased]
 
+### Added (Sprint B1 — Descoberta Profunda do Negócio)
+- `docs/business-cases/` — 12 casos reais iniciais (venda nacional, venda internacional, grupo, viagem religiosa, corporativo, Disney, cancelamento, remarcação, alteração de passageiros, alteração de hotel, alteração de voo, emissão urgente), cada um com template completo (contexto, sequência cronológica, decisões, documentos, aprovações, alterações, retrabalho, comunicação, riscos, problemas, exceções, lições aprendidas, possíveis regras de negócio) e perguntas específicas por tipo — todos vazios, aguardando entrevista real.
+- `knowledge/` (`suppliers/`, `airlines/`, `hotels/`, `insurance/`, `destinations/`, `payments/`) — estrutura vazia para conhecimento de referência sobre fornecedores, destinos e pagamentos, distinta das histórias de `business-cases/`.
+- ADR [0009](docs/decisoes/0009-sprint-b1-descoberta-por-casos-reais.md) — troca de método de descoberta (perguntas genéricas → casos reais) e formalização do Protocolo pós-entrevista.
+- Sprint B1 no `ROADMAP.md`, entre a Sprint 1B e a Sprint 1C (que agora depende explicitamente de casos processados, não apenas perguntas respondidas).
+
+### Changed (Sprint B1 — Descoberta Profunda do Negócio)
+- `docs/discovery-workshop.md` reestruturado: cada Workshop agora abre pedindo casos reais (referenciando `docs/business-cases/`), com as perguntas antigas rebaixadas a "sondagem de acompanhamento"; novo "Protocolo pós-entrevista" (7 passos obrigatórios ao final de toda sessão).
+- `docs/ARCHITECTURE.md` e `README.md` atualizados com `business-cases/` e `knowledge/`.
+
 ### Added (Sprint 1B — Invariantes, Validações e Modelo Executável)
 - `src/domain/shared/exceptions.py` (`DomainError`, `InvariantViolationError`, `StructuralValidationError`) e `src/domain/shared/guards.py` (funções de validação reutilizáveis) — mecanismo de validação de todo o domínio, sem dependência externa.
 - Invariantes implementadas para os 5 Aggregate Roots (Company, Customer, Supplier, Trip, Proposal), incluindo uma invariante que atravessa o Aggregate inteiro (Proposal: no máximo uma ProposalVersion `ACTIVE` simultaneamente).

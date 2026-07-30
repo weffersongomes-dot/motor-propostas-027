@@ -2,7 +2,7 @@
 
 Este documento é a referência técnica principal do projeto. Qualquer decisão de implementação deve ser compatível com o que está descrito aqui; qualquer mudança relevante de arquitetura deve atualizar este documento e registrar o porquê em `docs/decisoes/`.
 
-Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (Linguagem Ubíqua — conceitos de domínio, no padrão DDD), [`bounded-context-map.md`](bounded-context-map.md) (fronteiras de responsabilidade entre os contextos de negócio: Comercial, Operações, Financeiro, Cadastro), [`domain-map.md`](domain-map.md) (relacionamento entre as entidades do domínio), [`domain-decisions.md`](domain-decisions.md) (decisões de modelagem granulares, sem ADR própria), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens, organizadas em Comerciais/Financeiras/Operacionais/Legais) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo), além dos documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md) (classificação por dimensões), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido. A plataforma segue Domain-Driven Design: o domínio (glossário + mapa de domínio + regras) é descoberto e nomeado antes de qualquer modelagem técnica (ver [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md)).
+Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (Linguagem Ubíqua — conceitos de domínio, no padrão DDD), [`bounded-context-map.md`](bounded-context-map.md) (fronteiras de responsabilidade entre os contextos de negócio: Comercial, Operações, Financeiro, Cadastro), [`domain-map.md`](domain-map.md) (relacionamento entre as entidades do domínio), [`domain-decisions.md`](domain-decisions.md) (decisões de modelagem granulares, sem ADR própria), [`business-cases/`](business-cases/) (histórias reais de operações, base da descoberta desde a Sprint B1), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens, organizadas em Comerciais/Financeiras/Operacionais/Legais) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo), além dos documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md) (classificação por dimensões), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido. A plataforma segue Domain-Driven Design: o domínio (glossário + mapa de domínio + regras) é descoberto e nomeado antes de qualquer modelagem técnica (ver [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md)).
 
 ## 1. Visão geral
 
@@ -105,6 +105,8 @@ Cada módulo futuro (Motor de Contratos, Motor de Vouchers, etc.) terá seu pró
 | `prompts/` | Prompts operacionais para geração/preenchimento assistido por IA (ex: Prompt Mestre) | — |
 | `ai/` | Preparação para a capacidade de IA Comercial: prompts de produto, personas, validadores, instruções e base de conhecimento (ver `ai/README.md`) — estrutura vazia por enquanto | Implementação funcional (ainda) |
 | `examples/` | Exemplos de entrada/saída para referência | — |
+| `docs/business-cases/` | Histórias reais de operações, capturadas em entrevista (ver ADR 0009) — a fonte primária de onde regra de negócio nasce | Regra já generalizada (isso é `business-rules.md`, depois de extraída do caso) |
+| `knowledge/` | Conhecimento de referência reutilizável (fornecedores, destinos, formas de pagamento), extraído de casos processados | Histórias/narrativa (isso é `business-cases/`); suposição não confirmada |
 | `tests/` | Casos de teste com viagens fictícias, cobrindo cenários reais do negócio | — |
 
 ## 6. Estrutura de pastas
@@ -152,9 +154,12 @@ motor-propostas-027/
 │   ├── proposal-status.md         → estados possíveis da proposta (descoberta de negócio)
 │   ├── proposal-actions.md        → ações possíveis sobre a proposta (descoberta de negócio)
 │   ├── proposal-versioning.md     → estratégia de versionamento da proposta
-│   ├── discovery-workshop.md      → roteiro de entrevistas com o negócio
+│   ├── discovery-workshop.md      → roteiro de entrevistas por casos reais (Sprint B1)
+│   ├── business-cases/            → histórias reais de operações (vazias, aguardando entrevista)
 │   └── decisoes/                  → ADRs (decisões técnicas registradas)
 ├── examples/                      → exemplos de entrada/saída
+├── knowledge/                     → base de conhecimento de referência (fornecedores, destinos, pagamentos) — vazia (Sprint B1)
+│   ├── suppliers/, airlines/, hotels/, insurance/, destinations/, payments/
 ├── output/                        → artefatos gerados, por módulo e formato (não versionado)
 │   └── propostas/
 │       ├── html/

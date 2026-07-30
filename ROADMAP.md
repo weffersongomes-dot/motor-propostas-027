@@ -104,13 +104,32 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
+## Sprint B1 — Descoberta Profunda do Negócio ✅ concluída (estrutura)
+
+**Objetivo:** aprofundar a descoberta da Sprint 0.5 com um método mais rigoroso — entrevistas conduzidas a partir de casos reais ("conte uma venda real"), não perguntas genéricas — e preparar onde esse conhecimento deve ser registrado, antes de qualquer regra virar código. Ver [ADR 0009](docs/decisoes/0009-sprint-b1-descoberta-por-casos-reais.md).
+
+**Pré-requisito:** Sprint 1B concluída (domínio pronto para receber regra real).
+
+**Entregáveis:**
+- `docs/business-cases/` — 12 casos iniciais (venda nacional, venda internacional, grupo, viagem religiosa, corporativo, Disney, cancelamento, remarcação, alteração de passageiros, alteração de hotel, alteração de voo, emissão urgente), todos vazios, com template completo (contexto, sequência cronológica, decisões, documentos, aprovações, alterações, retrabalho, comunicação, riscos, problemas, exceções, lições aprendidas, possíveis regras de negócio) e perguntas específicas por tipo de caso.
+- `knowledge/` (`suppliers/`, `airlines/`, `hotels/`, `insurance/`, `destinations/`, `payments/`) — estrutura vazia para conhecimento de referência (fornecedores, destinos, pagamentos), distinta das histórias de `business-cases/`.
+- `docs/discovery-workshop.md` reestruturado: cada Workshop agora pede casos reais primeiro, perguntas abertas viram sondagem de acompanhamento; novo "Protocolo pós-entrevista" (7 passos, sempre executado ao final de cada sessão).
+
+**Critérios de aceite:**
+- Estrutura de `business-cases/` e `knowledge/` existe e está documentada — ✅.
+- Nenhum conteúdo foi inventado — todos os 12 casos permanecem "a preencher" até uma entrevista real — ✅.
+- Existe um protocolo claro de como transformar uma entrevista em atualização de `business-rules.md`/`proposal-types.md`/`proposal-lifecycle.md`/`domain-decisions.md`/`glossary.md` — ✅.
+- **Pendente (fora do escopo desta sprint, é o próximo passo real):** conduzir as entrevistas de fato — nenhum caso foi preenchido ainda.
+
+---
+
 ## Sprint 1C — Regras Comerciais (proposta, não iniciada)
 
 **Objetivo:** completar o que a Sprint 1B deliberadamente não fez — validações, obrigatoriedades e enums que dependem de decisão comercial da 027 (formas de pagamento, valores de `ProposalClassification`, política de cancelamento/validade, os 9 estados ricos de `docs/proposal-status.md`).
 
-**Pré-requisito:** Workshops 1 e 2 de `docs/discovery-workshop.md` (Atendimento, Financeiro) concluídos — as 5 perguntas de prioridade Alta em `docs/business-rules.md` respondidas.
+**Pré-requisito:** ao menos os casos de `docs/business-cases/` relacionados aos Workshops 1 e 2 (venda nacional, venda internacional, cancelamento, remarcação) preenchidos via entrevista real, e as regras correspondentes migradas para `docs/business-rules.md` como "conhecidas" (não pendentes) — ver Protocolo pós-entrevista em `docs/discovery-workshop.md`.
 
-**Nota:** número de sprint provisório — ver recomendação de próximos passos ao final da entrega da Sprint 1B.
+**Nota:** número de sprint provisório — ver recomendação de próximos passos ao final da entrega da Sprint B1.
 
 ---
 

@@ -6,6 +6,19 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/), e o
 
 ## [Unreleased]
 
+### Added (Sprint 1A — Modelagem do Domínio)
+- `docs/bounded-context-map.md` — quatro Bounded Contexts (Comercial, Operações, Financeiro, Cadastro): responsabilidades, limites, dependências, comunicação e mapeamento para os módulos técnicos de `src/domain/`.
+- `src/domain/` — primeira implementação de código do projeto: Shared Kernel (`BaseEntity`, `ValueObject`, `Identifier`, `DomainEvent`, `Money`, `Email`, `Phone`, `Address`, `DocumentNumber`, `DateRange`, `Metadata`) e Entidades/Value Objects/Aggregates por Bounded Context — `company/` (Company, Consultant), `customer/` (Customer, Passenger), `supplier/` (Supplier), `trip/` (Trip, Flight, Accommodation, Service, Airport), `financial/` (Financial), `proposal/` (Proposal, ProposalVersion, ProposalClassification). Aggregate Roots: Company, Customer, Supplier, Trip, Proposal. Zero validação, obrigatoriedade, enum ou regra de negócio, conforme escopo da sprint.
+- `src/application/` e `src/infrastructure/` criadas vazias, cada uma com README explicando o que vão receber e a regra de dependência (Clean Architecture).
+- `examples/sprint_1a_domain_example.py` — exemplo executável que instancia e encadeia todos os objetos de domínio; executado com sucesso.
+- `schemas/` reorganizado em estrutura modular por Bounded Context (`shared/`, `company/`, `customer/`, `supplier/`, `trip/`, `financial/`, `proposal/`), com um arquivo por Entidade/Value Object, reaproveitando `$ref` — forma apenas (`type`/`properties`), sem `required`/`enum` nesta sprint.
+- ADR [0006](docs/decisoes/0006-sprint-1a-modelagem-de-dominio.md) registrando: confirmação de Python como stack; Aggregate Roots definidos/estendidos; classificação de Metadata e Financial como Value Objects (não Entidades); novo Value Object `ProposalClassification`; extensões pontuais aos exemplos do briefing (Airport, schemas adicionais); estrutura Sprint 1A dos schemas.
+
+### Changed (Sprint 1A — Modelagem do Domínio)
+- `src/core/`, `src/models/`, `src/generators/`, `src/utils/` (vazias desde a criação) removidas e substituídas por `src/domain/`, `src/application/`, `src/infrastructure/`.
+- `docs/ARCHITECTURE.md`, `README.md` e `ROADMAP.md` atualizados para descrever a nova estrutura de `src/` e `schemas/`, e para referenciar `docs/bounded-context-map.md`.
+- `ROADMAP.md`: Sprint 1A marcada como concluída, com entregáveis finais; Sprint 1B detalhada com o que falta adicionar aos mesmos arquivos (não criar novos).
+
 ### Added (Refinamento arquitetural pré-Sprint 1A)
 - `docs/domain-map.md` — representação textual das entidades do domínio (Empresa, Consultor, Cliente, Passageiro, Fornecedor, Viagem, Proposta, Versão, Documento, Emissão, Financeiro, Metadata) e seus relacionamentos/dependências.
 - ADR [0005](docs/decisoes/0005-refinamento-pre-sprint-1a.md) registrando: divisão do Sprint 1 em 1A/1B, modelagem de proposta por dimensões, etapa de Qualificação, adoção formal da Linguagem Ubíqua.

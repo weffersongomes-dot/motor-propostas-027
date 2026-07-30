@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "supplier.schema.json",
+  "title": "Supplier",
+  "$comment": "Sprint 1A: apenas a forma. 'category' é texto livre (vira enum na 1B). Corresponde a src/domain/supplier/supplier.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "name": { "type": "string" },
+    "category": { "type": "string" },
+    "email": { "$ref": "../shared/email.schema.json" },
+    "phone": { "$ref": "../shared/phone.schema.json" }
+  }
+}

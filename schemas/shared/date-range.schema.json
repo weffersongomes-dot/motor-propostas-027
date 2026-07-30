@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "date-range.schema.json",
+  "title": "DateRange",
+  "$comment": "Sprint 1A: sem verificação de que 'end' seja posterior a 'start' — isso é Sprint 1B.",
+  "type": "object",
+  "properties": {
+    "start": { "type": "string" },
+    "end": { "type": "string" }
+  }
+}

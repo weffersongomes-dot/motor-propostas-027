@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "money.schema.json",
+  "title": "Money",
+  "$comment": "Sprint 1A: apenas a forma. Sem obrigatoriedade, sem enum de moeda — isso é Sprint 1B.",
+  "type": "object",
+  "properties": {
+    "amount": { "type": "number" },
+    "currency": { "type": "string" }
+  }
+}

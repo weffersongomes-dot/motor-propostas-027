@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "company.schema.json",
+  "title": "Company",
+  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/company/company.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "legal_name": { "type": "string" },
+    "trade_name": { "type": "string" },
+    "document_number": { "$ref": "../shared/document-number.schema.json" },
+    "address": { "$ref": "../shared/address.schema.json" },
+    "email": { "$ref": "../shared/email.schema.json" },
+    "phone": { "$ref": "../shared/phone.schema.json" },
+    "logo_path": { "type": "string" },
+    "consultants": {
+      "type": "array",
+      "items": { "$ref": "consultant.schema.json" }
+    }
+  }
+}

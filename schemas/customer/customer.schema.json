@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "customer.schema.json",
+  "title": "Customer",
+  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/customer/customer.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "name": { "type": "string" },
+    "document_number": { "$ref": "../shared/document-number.schema.json" },
+    "email": { "$ref": "../shared/email.schema.json" },
+    "phone": { "$ref": "../shared/phone.schema.json" },
+    "address": { "$ref": "../shared/address.schema.json" },
+    "passengers": {
+      "type": "array",
+      "items": { "$ref": "passenger.schema.json" }
+    }
+  }
+}

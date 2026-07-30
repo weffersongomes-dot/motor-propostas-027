@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proposal.schema.json",
+  "title": "Proposal",
+  "$comment": "Sprint 1A: apenas a forma. Proposal é só a identidade estável + histórico de versões; todo conteúdo real vive em ProposalVersion. Corresponde a src/domain/proposal/proposal.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "versions": {
+      "type": "array",
+      "items": { "$ref": "proposal-version.schema.json" }
+    }
+  }
+}

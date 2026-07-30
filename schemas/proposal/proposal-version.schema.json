@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proposal-version.schema.json",
+  "title": "ProposalVersion",
+  "$comment": "Sprint 1A: apenas a forma. 'status' não existe como campo próprio — vive em metadata.status. Corresponde a src/domain/proposal/proposal_version.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "version_number": { "type": "string" },
+    "company_id": { "$ref": "../shared/identifier.schema.json" },
+    "customer_id": { "$ref": "../shared/identifier.schema.json" },
+    "trip_id": { "$ref": "../shared/identifier.schema.json" },
+    "consultant_id": { "$ref": "../shared/identifier.schema.json" },
+    "classification": { "$ref": "proposal-classification.schema.json" },
+    "financial": { "$ref": "../financial/financial.schema.json" },
+    "metadata": { "$ref": "../shared/metadata.schema.json" }
+  }
+}

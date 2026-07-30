@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "accommodation.schema.json",
+  "title": "Accommodation",
+  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/trip/accommodation.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "supplier_id": { "$ref": "../shared/identifier.schema.json" },
+    "name": { "type": "string" },
+    "category": { "type": "string" },
+    "date_range": { "$ref": "../shared/date-range.schema.json" }
+  }
+}

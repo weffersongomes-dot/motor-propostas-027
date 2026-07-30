@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proposal-classification.schema.json",
+  "title": "ProposalClassification",
+  "$comment": "Não fazia parte do exemplo original de schemas/ do briefing, mas é necessário para representar docs/proposal-types.md (4 dimensões combináveis, não um tipo único) — ver docs/decisoes/0006-sprint-1a-modelagem-de-dominio.md. Sprint 1A: cada dimensão é um array de texto livre, sem enum.",
+  "type": "object",
+  "properties": {
+    "destinations": { "type": "array", "items": { "type": "string" } },
+    "formats": { "type": "array", "items": { "type": "string" } },
+    "purposes": { "type": "array", "items": { "type": "string" } },
+    "products": { "type": "array", "items": { "type": "string" } }
+  }
+}

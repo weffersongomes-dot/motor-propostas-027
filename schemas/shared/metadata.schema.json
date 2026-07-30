@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "metadata.schema.json",
+  "title": "Metadata",
+  "$comment": "Espelha docs/universal-proposal-model.md. Sprint 1A: apenas a forma — nenhum campo obrigatório, nenhum enum de status ainda.",
+  "type": "object",
+  "properties": {
+    "proposal_id": { "$ref": "identifier.schema.json" },
+    "schema_version": { "type": "string" },
+    "engine_version": { "type": "string" },
+    "template": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "consultant_id": { "$ref": "identifier.schema.json" },
+    "origin": { "type": "string" },
+    "status": { "type": "string" }
+  }
+}

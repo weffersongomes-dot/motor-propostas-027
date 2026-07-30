@@ -58,21 +58,24 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
-## Sprint 1A — Modelagem do Domínio
+## Sprint 1A — Modelagem do Domínio ✅ concluída
 
 **Objetivo:** representar os objetos de domínio da plataforma (as entidades do `docs/domain-map.md`), usando a terminologia definida em `docs/glossary.md` — **sem** validações, obrigatoriedades, enums ou regras de negócio. Só a forma dos conceitos, não o comportamento deles.
 
 **Pré-requisito:** Sprint 0.5 concluída — glossário e mapa de domínio (`docs/domain-map.md`) estáveis o suficiente para nomear os objetos sem ambiguidade.
 
 **Entregáveis:**
-- Objetos de domínio em `src/models/` para: Empresa, Cliente, Passageiro, Consultor, Fornecedor, Documento, Proposta, Viagem, Hospedagem, Voo, Serviço, Financeiro, Metadata — cada um apenas com seus atributos, sem lógica.
-- Exemplo de dado de entrada em `examples/`, usando esses objetos, ainda sem validação.
-- Documentação da decisão de linguagem/stack em `docs/decisoes/`.
+- `docs/bounded-context-map.md` — Comercial, Operações, Financeiro, Cadastro: responsabilidades, limites, dependências, comunicação entre contextos.
+- Entidades, Value Objects e Aggregates em `src/domain/`, organizados por Bounded Context técnico (`shared/`, `company/`, `customer/`, `supplier/`, `trip/`, `financial/`, `proposal/`) para: Company, Consultant, Customer, Passenger, Supplier, Trip, Flight, Accommodation, Service, Financial, Proposal, ProposalVersion, Metadata — cada um apenas com seus atributos, sem lógica. Aggregate Roots: Company, Customer, Supplier, Trip, Proposal.
+- `src/application/` e `src/infrastructure/` criadas vazias, com README explicando o que vão receber.
+- Estrutura modular de `schemas/` (por Bounded Context, espelhando `src/domain/`), forma apenas (sem `required`/`enum`).
+- Exemplo de dado de entrada em `examples/sprint_1a_domain_example.py`, usando esses objetos, ainda sem validação — executado com sucesso.
+- Documentação da decisão de linguagem/stack (Python + `dataclasses`, sem dependências) em [ADR 0006](docs/decisoes/0006-sprint-1a-modelagem-de-dominio.md).
 
 **Critérios de aceite:**
-- Todo objeto de domínio usa exatamente os nomes definidos em `docs/glossary.md` (Linguagem Ubíqua).
-- Nenhuma validação, obrigatoriedade, enum ou regra de negócio presente nesta etapa — isso é responsabilidade da Sprint 1B.
-- Um exemplo de viagem pode ser representado 100% pelos objetos de domínio, sem campos "soltos" fora deles.
+- Todo objeto de domínio usa exatamente os nomes definidos em `docs/glossary.md` (Linguagem Ubíqua) — ✅.
+- Nenhuma validação, obrigatoriedade, enum ou regra de negócio presente nesta etapa — isso é responsabilidade da Sprint 1B — ✅.
+- Um exemplo de viagem pode ser representado 100% pelos objetos de domínio, sem campos "soltos" fora deles — ✅ (`examples/sprint_1a_domain_example.py`).
 
 ---
 
@@ -83,8 +86,9 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 **Pré-requisito:** Sprint 1A concluída; perguntas críticas do negócio (ver `docs/business-rules.md`, grupos Comerciais/Financeiras/Operacionais/Legais) respondidas o suficiente para que o Modelo Universal da Proposta represente a operação real.
 
 **Entregáveis:**
-- Schema formal da proposta (`schemas/proposta.schema.json`), com tipos, obrigatoriedade, enums e restrições, derivado dos objetos de domínio da Sprint 1A e de `docs/universal-proposal-model.md` já validado com as respostas da Sprint 0.5.
-- Validações correspondentes em `src/core/`.
+- `required`, `enum` e demais restrições adicionados aos schemas já existentes em `schemas/` (não criar novos arquivos — evoluir os da Sprint 1A).
+- Comportamento de domínio (ex: `Proposal.aprovar()`, regra de nova versão) e validações em `src/domain/`, seguindo `docs/proposal-actions.md`/`proposal-status.md`.
+- Valores restritos (enum) para `ProposalClassification` (Destino/Formato/Finalidade/Produto, ver `proposal-types.md`), formas de pagamento, categorias de fornecedor, etc.
 
 **Critérios de aceite:**
 - Todo campo obrigatório, enum e restrição tem lastro em uma regra registrada (não pendente) em `docs/business-rules.md`.
@@ -97,9 +101,9 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 **Objetivo:** criar o template visual da proposta comercial em HTML.
 
 **Entregáveis:**
-- Template HTML em `templates/html/`, usando dados do modelo da Sprint 1B.
+- Template HTML em `templates/propostas/html/`, usando dados do modelo da Sprint 1B.
 - Uso da identidade visual da 027 Viagens (`assets/logo/`, `assets/imagens/`).
-- Proposta de exemplo gerada em `output/html/` a partir de um dado de `examples/`.
+- Proposta de exemplo gerada em `output/propostas/html/` a partir de um dado de `examples/`.
 
 **Critérios de aceite:**
 - Proposta renderiza corretamente a partir de um dado de exemplo.
@@ -113,9 +117,9 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 **Entregáveis:**
 - Arte-base do papel timbrado em `assets/papel_timbrado/`.
-- Template de PDF em `templates/pdf/`.
-- Gerador de PDF em `src/generators/`.
-- PDF de exemplo em `output/pdf/`.
+- Template de PDF em `templates/propostas/pdf/`.
+- Gerador de PDF em `src/infrastructure/`.
+- PDF de exemplo em `output/propostas/pdf/`.
 
 **Critérios de aceite:**
 - PDF gerado é visualmente consistente com o HTML e usa o papel timbrado oficial.
@@ -142,7 +146,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 **Objetivo:** garantir que dados incompletos ou inconsistentes sejam identificados antes da geração da proposta.
 
 **Entregáveis:**
-- Regras de validação em `src/core/`.
+- Regras de validação em `src/domain/`.
 - Mensagens de erro claras indicando o que falta/está incorreto.
 
 **Critérios de aceite:**
@@ -157,7 +161,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 **Entregáveis:**
 - Definição do schema de integração (tabela/API) em `docs/decisoes/`.
-- Gerador de payload compatível com Coda em `src/generators/`.
+- Gerador de payload compatível com Coda em `src/infrastructure/`.
 
 **Critérios de aceite:**
 - Dados de uma proposta podem ser enviados/registrados no Coda sem transformação manual.
@@ -170,7 +174,7 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 **Entregáveis:**
 - Definição do método de integração (API oficial do WhatsApp Business vs. link `wa.me`) em `docs/decisoes/`.
-- Implementação da geração/envio em `src/generators/`.
+- Implementação da geração/envio em `src/infrastructure/`.
 
 **Critérios de aceite:**
 - Mensagem gerada pode ser enviada ao cliente com o mínimo de passos manuais possível.

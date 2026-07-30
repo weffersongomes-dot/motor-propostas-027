@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "identifier.schema.json",
+  "title": "Identifier",
+  "$comment": "Sprint 1A: apenas a forma. Sem 'required', sem 'format' (ex: uuid) — isso é Sprint 1B.",
+  "type": "object",
+  "properties": {
+    "value": { "type": "string" }
+  }
+}

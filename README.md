@@ -20,17 +20,13 @@ Entrada → Validação → Normalização → Regras de negócio → Enriquecim
 
 A descrição completa da arquitetura — módulos, camadas, responsabilidades e estratégia de expansão para novos tipos de documento — está em **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**, a referência técnica principal do projeto. A visão de produto por trás dessa arquitetura está em [docs/vision.md](docs/vision.md); as regras comerciais conhecidas em [docs/business-rules.md](docs/business-rules.md); e a especificação do objeto central do Motor de Propostas em [docs/universal-proposal-model.md](docs/universal-proposal-model.md).
 
-## Tecnologias sugeridas
+## Tecnologias
 
-A definir com mais detalhe no Sprint 1/2, mas a direção proposta é:
-
-- **Linguagem:** Python (bom suporte a geração de PDF/HTML, fácil de rodar em automações e scripts)
-- **Templates HTML:** Jinja2
-- **Geração de PDF:** WeasyPrint (HTML/CSS → PDF, aproveita o mesmo template do papel timbrado) ou similar
-- **Dados estruturados:** JSON (compatível com integração futura via API com Coda)
+- **Linguagem:** Python — confirmado na Sprint 1A (ver [ADR 0006](docs/decisoes/0006-sprint-1a-modelagem-de-dominio.md)). A camada de domínio (`src/domain/`) usa apenas a biblioteca padrão (`dataclasses`), sem dependências externas.
+- **Templates HTML:** Jinja2 (a confirmar no Sprint 2)
+- **Geração de PDF:** WeasyPrint (HTML/CSS → PDF, aproveita o mesmo template do papel timbrado) ou similar — a confirmar no Sprint 3
+- **Dados estruturados:** JSON Schema modular em `schemas/`, espelhando `src/domain/` (compatível com integração futura via API com Coda)
 - **Sem banco de dados nesta fase** — persistência simples em arquivo; banco de dados entra quando houver integração real (Sprint 6+)
-
-Essas escolhas serão revisitadas e confirmadas no Sprint 1, quando o modelo de dados for definido.
 
 ## Estrutura de pastas
 
@@ -53,6 +49,7 @@ motor-propostas-027/
 │   ├── ARCHITECTURE.md    → referência técnica principal
 │   ├── vision.md          → problema, público, visão de 5 anos, princípios inquebráveis
 │   ├── glossary.md        → Linguagem Ubíqua (conceitos de domínio, DDD)
+│   ├── bounded-context-map.md → fronteiras entre contextos de negócio (Comercial/Operações/Financeiro/Cadastro)
 │   ├── domain-map.md      → relacionamento entre as entidades do domínio
 │   ├── business-rules.md  → regras comerciais (Comerciais/Financeiras/Operacionais/Legais)
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
@@ -64,14 +61,14 @@ motor-propostas-027/
 ├── output/                → saídas geradas, por módulo e formato (não versionado — ver .gitignore)
 │   └── propostas/
 ├── prompts/               → prompts (ex: "Prompt Mestre" de geração assistida por IA)
-├── schemas/               → modelos JSON dos dados (proposta, cliente, viagem, pagamento, empresa...)
+├── schemas/               → JSON Schema modular por Bounded Context (shared, company, customer, supplier, trip, financial, proposal)
 ├── scripts/               → scripts utilitários (setup, geração em lote, etc.)
 ├── src/
-│   ├── models/            → carregamento/validação dos dados, compartilhado entre módulos
-│   ├── core/              → regras de negócio, compartilhado entre módulos
-│   ├── generators/
-│   │   └── propostas/     → geradores do Motor de Propostas (módulo 1)
-│   └── utils/             → funções auxiliares compartilhadas
+│   ├── domain/            → Entidades, Value Objects e Aggregates, por Bounded Context (ver domain/*/README implícito nos módulos)
+│   │   ├── shared/        → Shared Kernel: BaseEntity, ValueObject, Identifier, DomainEvent, Money, Metadata...
+│   │   └── company/, customer/, supplier/, trip/, financial/, proposal/
+│   ├── application/       → casos de uso — vazio nesta sprint (ver src/application/README.md)
+│   └── infrastructure/    → geradores, persistência, integrações — vazio nesta sprint (ver src/infrastructure/README.md)
 ├── templates/
 │   └── propostas/         → templates do Motor de Propostas, por formato (html, pdf, whatsapp, email)
 └── tests/
@@ -85,7 +82,10 @@ Detalhes de cada camada, incluindo como adicionar um novo tipo de documento sem 
 | Sprint | Foco |
 |---|---|
 | 0 | Estrutura do projeto e documentação |
-| 1 | Modelo de dados da proposta |
+| 0.4 | Evolução para Plataforma de Documentos |
+| 0.5 | Engenharia Comercial e Descoberta do Negócio |
+| 1A | Modelagem do Domínio (DDD) |
+| 1B | Evolução do Modelo (validações, enums, regras) |
 | 2 | Layout HTML da proposta |
 | 3 | Geração do PDF em papel timbrado |
 | 4 | Prompt Mestre (geração assistida por IA) |
@@ -98,17 +98,23 @@ Detalhes de objetivos, entregáveis e critérios de aceite de cada sprint estão
 
 ## Instruções para desenvolvimento
 
-> Ambiente de desenvolvimento (linguagem, dependências, comandos de setup) será definido no Sprint 1, junto com o modelo de dados. Por ora, o projeto contém apenas estrutura e documentação.
+Requer **Python 3.10+** (biblioteca padrão apenas, nesta sprint). Para rodar o exemplo de domínio:
+
+```bash
+python examples/sprint_1a_domain_example.py
+```
 
 Convenções a seguir em todo o projeto:
 
-- **Arquitetura modular** — cada módulo de documento (proposta, contrato, voucher...) é independente dos demais, dependendo só das camadas compartilhadas (`config/`, `components/`, `content/`, `src/core/`, `src/models/`).
-- **Sem duplicação de código** — regra de negócio vive em um único lugar (`src/core/`).
+- **Domain-Driven Design** — domínio organizado por Bounded Context em `src/domain/` (ver `docs/bounded-context-map.md`), independente de `src/application/`/`src/infrastructure/` (Clean Architecture).
+- **Arquitetura modular** — cada módulo de documento (proposta, contrato, voucher...) é independente dos demais, dependendo só das camadas compartilhadas (`config/`, `components/`, `content/`, `src/domain/shared/`).
+- **Sem duplicação de código** — regra de negócio vive em um único lugar (Entidades/Aggregates em `src/domain/`).
 - **Decisões importantes documentadas** em `docs/decisoes/`.
-- **Separação entre regra de negócio e apresentação** — `src/core/` nunca deve conter HTML/texto de template; `templates/` e `components/` nunca devem conter lógica de cálculo ou validação.
+- **Separação entre regra de negócio e apresentação** — `src/domain/` nunca deve conter HTML/texto de template; `templates/` e `components/` nunca devem conter lógica de cálculo ou validação.
 - **Nada institucional fixo no código** — dados da empresa em `config/`, textos institucionais em `content/`.
-- **Fluxo de dados obrigatório** — todo documento segue entrada → validação → regras de negócio → enriquecimento → modelo único → saídas (ver `docs/ARCHITECTURE.md`).
-- **Nomes claros** para arquivos e diretórios, em português, consistentes com o domínio do negócio (viagem, proposta, cliente).
+- **Fluxo de dados obrigatório** — todo documento segue entrada → validação → normalização → regras de negócio → enriquecimento → Modelo Universal → geradores → saídas (ver `docs/ARCHITECTURE.md`).
+- **Linguagem Ubíqua** — todo nome de classe/atributo deve corresponder a um termo de `docs/glossary.md`.
+- **Nomes claros** para arquivos e diretórios, consistentes com o domínio do negócio (viagem, proposta, cliente).
 - Toda mudança relevante deve ser registrada em [CHANGELOG.md](CHANGELOG.md).
 
 ## Documentos do projeto
@@ -116,6 +122,7 @@ Convenções a seguir em todo o projeto:
 - [docs/vision.md](docs/vision.md) — visão de produto, público e princípios inquebráveis
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — arquitetura completa da plataforma
 - [docs/glossary.md](docs/glossary.md) — Linguagem Ubíqua (conceitos de domínio, DDD)
+- [docs/bounded-context-map.md](docs/bounded-context-map.md) — fronteiras entre contextos de negócio (Comercial/Operações/Financeiro/Cadastro)
 - [docs/domain-map.md](docs/domain-map.md) — relacionamento entre as entidades do domínio
 - [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas (e pendentes) da 027 Viagens
 - [docs/universal-proposal-model.md](docs/universal-proposal-model.md) — especificação do Modelo Universal da Proposta

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "passenger.schema.json",
+  "title": "Passenger",
+  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/customer/passenger.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "name": { "type": "string" },
+    "document_number": { "$ref": "../shared/document-number.schema.json" },
+    "birth_date": { "type": "string" }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "trip.schema.json",
+  "title": "Trip",
+  "$comment": "Sprint 1A: apenas a forma. 'destination' é texto livre — a classificação formal (Destino/Formato/Finalidade/Produto) vive em proposal-classification.schema.json. Corresponde a src/domain/trip/trip.py.",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "../shared/identifier.schema.json" },
+    "destination": { "type": "string" },
+    "date_range": { "$ref": "../shared/date-range.schema.json" },
+    "flights": {
+      "type": "array",
+      "items": { "$ref": "flight.schema.json" }
+    },
+    "accommodations": {
+      "type": "array",
+      "items": { "$ref": "accommodation.schema.json" }
+    },
+    "services": {
+      "type": "array",
+      "items": { "$ref": "service.schema.json" }
+    }
+  }
+}

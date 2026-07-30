@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "address.schema.json",
+  "title": "Address",
+  "$comment": "Sprint 1A: apenas a forma. Nenhum campo obrigatório ainda — isso é Sprint 1B.",
+  "type": "object",
+  "properties": {
+    "street": { "type": "string" },
+    "number": { "type": "string" },
+    "complement": { "type": "string" },
+    "neighborhood": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "country": { "type": "string" },
+    "postal_code": { "type": "string" }
+  }
+}

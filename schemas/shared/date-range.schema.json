@@ -2,10 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "date-range.schema.json",
   "title": "DateRange",
-  "$comment": "Sprint 1A: sem verificação de que 'end' seja posterior a 'start' — isso é Sprint 1B.",
+  "$comment": "Sprint 1B: 'end' >= 'start' é validado em código (src/domain/shared/date_range.py) — JSON Schema puro não expressa comparação entre dois campos sem extensões; a obrigatoriedade dos dois campos é o que este arquivo garante.",
   "type": "object",
   "properties": {
     "start": { "type": "string" },
     "end": { "type": "string" }
-  }
+  },
+  "required": ["start", "end"]
 }

@@ -9,7 +9,7 @@ Em vez de um único schema gigante, `schemas/` é organizado **por Bounded Conte
 ```
 schemas/
 ├── shared/       → Value Objects/estruturas comuns: identifier, money, email, phone,
-│                    address, document-number, date-range, metadata
+│                    address, document-number, date-range, metadata, country-code, language-code
 ├── company/       → company, consultant
 ├── customer/       → customer, passenger
 ├── supplier/        → supplier
@@ -20,9 +20,11 @@ schemas/
 
 Cada schema usa `$ref` para reaproveitar os de `shared/` e de outros contextos (ex: `proposal-version.schema.json` referencia `financial/financial.schema.json` e `shared/metadata.schema.json`) — em vez de duplicar a mesma forma em vários lugares.
 
-**Sprint 1A:** cada schema tem apenas `type`/`properties` (a forma), sem `required` nem `enum` — reflete exatamente as entidades/Value Objects de `src/domain/`, que nesta etapa também não têm validação nem obrigatoriedade. Cada arquivo tem um campo `$comment` deixando isso explícito.
+**Sprint 1A:** cada schema tinha apenas `type`/`properties` (a forma), sem `required` nem `enum`.
 
-**Sprint 1B:** os mesmos arquivos ganham `required`, `enum` e outras restrições, a partir do que for confirmado em `docs/business-rules.md`. Não se cria um schema novo — evolui-se o existente.
+**Sprint 1B (atual):** os mesmos arquivos ganharam `required` estrutural (campos que toda instância precisa ter) e `enum` **apenas para classificações estruturais** (`DocumentType`, `Currency`, `PhoneType`, `PassengerType`, `AirportType`, `SupplierCategory`, e os "Estados do Modelo" `ProposalStatus`/`ProposalVersionStatus`) — nunca para algo que dependa de Regra Comercial ainda pendente em `docs/business-rules.md` (ex: `Financial.payment_method` continua texto livre, ver `docs/domain-decisions.md`). País/idioma (`country-code.schema.json`, `language-code.schema.json`) foram validados por `pattern` (formato), não por `enum` fechado — mesma decisão tomada no código (`src/domain/shared/country_code.py`). Cada arquivo tem um campo `$comment` explicando o que mudou e por quê.
+
+**Sprint 1B+:** quando `docs/business-rules.md` for preenchido, os mesmos arquivos ganham `enum`/`required` adicionais para as regras comerciais confirmadas. Não se cria schema novo.
 
 ## O que vai continuar entrando aqui
 

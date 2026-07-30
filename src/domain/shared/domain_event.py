@@ -3,7 +3,8 @@
 Domain Events serão o mecanismo de comunicação entre Bounded Contexts
 (ver docs/bounded-context-map.md) a partir de uma sprint futura, quando
 `src/application/` existir de fato. Nesta sprint, apenas a forma base é
-preparada — nenhum evento concreto (ex: "PropostaAprovada") é criado.
+preparada — nenhum evento concreto (ex: "ProposalApproved") é criado.
+Ver `src/domain/events/README.md` para a lista de eventos previstos.
 """
 
 from abc import ABC

@@ -2,13 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "accommodation.schema.json",
   "title": "Accommodation",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/trip/accommodation.py.",
+  "$comment": "Sprint 1B: campos obrigatórios. Corresponde a src/domain/trip/accommodation.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
     "supplier_id": { "$ref": "../shared/identifier.schema.json" },
-    "name": { "type": "string" },
-    "category": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
     "date_range": { "$ref": "../shared/date-range.schema.json" }
-  }
+  },
+  "required": ["id", "supplier_id", "name", "category", "date_range"]
 }

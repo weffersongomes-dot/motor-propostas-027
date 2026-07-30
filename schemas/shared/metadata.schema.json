@@ -2,17 +2,18 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "metadata.schema.json",
   "title": "Metadata",
-  "$comment": "Espelha docs/universal-proposal-model.md. Sprint 1A: apenas a forma — nenhum campo obrigatório, nenhum enum de status ainda.",
+  "$comment": "Espelha docs/universal-proposal-model.md. Sprint 1B: campo antes chamado 'proposal_id' renomeado para 'subject_id' (revisão de Shared Kernel — ver docs/domain-decisions.md); todos os campos agora obrigatórios; 'status' permanece string livre de propósito (vocabulário difere por módulo — o estado tipado de uma proposta vive em proposal-version.schema.json).",
   "type": "object",
   "properties": {
-    "proposal_id": { "$ref": "identifier.schema.json" },
-    "schema_version": { "type": "string" },
-    "engine_version": { "type": "string" },
-    "template": { "type": "string" },
+    "subject_id": { "$ref": "identifier.schema.json" },
+    "schema_version": { "type": "string", "minLength": 1 },
+    "engine_version": { "type": "string", "minLength": 1 },
+    "template": { "type": "string", "minLength": 1 },
     "generated_at": { "type": "string" },
-    "generated_by": { "type": "string" },
+    "generated_by": { "type": "string", "minLength": 1 },
     "consultant_id": { "$ref": "identifier.schema.json" },
-    "origin": { "type": "string" },
-    "status": { "type": "string" }
-  }
+    "origin": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "minLength": 1 }
+  },
+  "required": ["subject_id", "schema_version", "engine_version", "template", "generated_at", "generated_by", "consultant_id", "origin", "status"]
 }

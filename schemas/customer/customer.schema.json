@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "customer.schema.json",
   "title": "Customer",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/customer/customer.py.",
+  "$comment": "Sprint 1B: 'address' e 'passengers' continuam opcionais — um Customer pode existir sem endereço cadastrado ou sem passageiros (ver src/domain/customer/customer.py). Corresponde a src/domain/customer/customer.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "name": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
     "document_number": { "$ref": "../shared/document-number.schema.json" },
     "email": { "$ref": "../shared/email.schema.json" },
     "phone": { "$ref": "../shared/phone.schema.json" },
@@ -15,5 +15,6 @@
       "type": "array",
       "items": { "$ref": "passenger.schema.json" }
     }
-  }
+  },
+  "required": ["id", "name", "document_number", "email", "phone"]
 }

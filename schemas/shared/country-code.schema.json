@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "country-code.schema.json",
+  "title": "CountryCode",
+  "$comment": "Sprint 1B: validado por formato (ISO 3166-1 alpha-2), não por enum fechado — lista de países é dado de referência grande e mutável, não pertence a um Enum de código. Ver docs/domain-decisions.md e src/domain/shared/country_code.py.",
+  "type": "object",
+  "properties": {
+    "value": { "type": "string", "pattern": "^[A-Z]{2}$" }
+  },
+  "required": ["value"]
+}

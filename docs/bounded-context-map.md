@@ -37,12 +37,14 @@ Identifica os principais Bounded Contexts (DDD) da Plataforma de Documentos Come
 
 ## Comunicação entre contextos
 
-- Contextos se comunicam **por referência de identidade** (`Identifier`), nunca embutindo o objeto de outro contexto dentro do seu próprio Aggregate — é por isso que `ProposalVersion` (Comercial) guarda `customer_id`, `trip_id`, `company_id`, `consultant_id` em vez de conter `Customer`/`Trip`/`Company`/`Consultant` completos.
-- A comunicação orientada a eventos (um contexto reagindo a algo que aconteceu em outro — ex: Operações reagindo a "Proposta paga") está preparada estruturalmente (`src/domain/shared/domain_event.py`), mas **nenhum evento concreto existe ainda** — isso é trabalho de uma sprint futura, quando `src/application/` deixar de estar vazio.
+- Contextos se comunicam **por referência de identidade** (`Identifier`), nunca embutindo o objeto de outro contexto dentro do seu próprio Aggregate — é por isso que `ProposalVersion` (Comercial) guarda `customer_id`, `trip_id`, `company_id`, `consultant_id` em vez de conter `Customer`/`Trip`/`Company`/`Consultant` completos. `Proposal` formaliza esse princípio como Aggregate de Coordenação (ver ADR [0007](decisoes/0007-proposal-aggregate-de-coordenacao.md)) — nunca é proprietária dos Aggregates que referencia.
+- A comunicação orientada a eventos (um contexto reagindo a algo que aconteceu em outro — ex: Operações reagindo a "Proposta paga") está preparada estruturalmente (`src/domain/shared/domain_event.py` + `src/domain/events/README.md`, lista de eventos previstos desde a Sprint 1B), mas **nenhum evento concreto existe ainda** — isso é trabalho de uma sprint futura, quando `src/application/` deixar de estar vazio.
 - Nenhum contexto deve importar uma Entidade interna de outro contexto para modificá-la diretamente — só o próprio contexto muta suas Entidades.
+- Desde a Sprint 1B, cada Aggregate protege sua própria consistência (invariantes + validações estruturais, ver ADR [0008](decisoes/0008-sprint-1b-invariantes-e-validacoes.md)) — mas nenhum deles ainda valida contra regra comercial da 027 (isso continua pendente em `docs/business-rules.md`).
 
 ## Relação com outros documentos
 
 - `docs/glossary.md` — todo termo usado aqui deve ser consistente com a Linguagem Ubíqua ali definida.
 - `docs/domain-map.md` — relacionamento entre entidades dentro de um contexto (mais granular que este documento, que é sobre fronteiras entre contextos).
+- `docs/domain-decisions.md` — decisões de modelagem granulares (ex: por que Passenger pertence ao Customer mas é referenciado pela Trip) que refinam as fronteiras descritas aqui.
 - `docs/ARCHITECTURE.md` — módulos de documento e capacidades de plataforma (visão de produto) versus Bounded Contexts (visão de domínio) — os módulos futuros de documento (Contratos, Vouchers) tendem a viver dentro do contexto Operações ou Comercial, dependendo do que representam.

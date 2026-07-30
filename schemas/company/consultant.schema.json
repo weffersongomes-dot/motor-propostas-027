@@ -2,12 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "consultant.schema.json",
   "title": "Consultant",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/company/consultant.py.",
+  "$comment": "Sprint 1B: campos obrigatórios. Corresponde a src/domain/company/consultant.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "name": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
     "email": { "$ref": "../shared/email.schema.json" },
     "phone": { "$ref": "../shared/phone.schema.json" }
-  }
+  },
+  "required": ["id", "name", "email", "phone"]
 }

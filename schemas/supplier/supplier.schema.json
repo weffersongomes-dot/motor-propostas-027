@@ -2,13 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "supplier.schema.json",
   "title": "Supplier",
-  "$comment": "Sprint 1A: apenas a forma. 'category' é texto livre (vira enum na 1B). Corresponde a src/domain/supplier/supplier.py.",
+  "$comment": "Sprint 1B: 'category' é enum estrutural (companhia aérea/hotel/operadora/seguradora — categorias universais do setor, não política comercial da 027). Corresponde a src/domain/supplier/supplier.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "name": { "type": "string" },
-    "category": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "enum": ["AIRLINE", "HOTEL", "OPERATOR", "INSURER", "OTHER"] },
     "email": { "$ref": "../shared/email.schema.json" },
     "phone": { "$ref": "../shared/phone.schema.json" }
-  }
+  },
+  "required": ["id", "name", "category", "email", "phone"]
 }

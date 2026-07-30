@@ -2,9 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "phone.schema.json",
   "title": "Phone",
-  "$comment": "Sprint 1A: apenas a forma.",
+  "$comment": "Sprint 1B: 'type' é enum estrutural (móvel/fixo/WhatsApp); 'value' validado por formato básico, sem exigir DDI/DDD específico. Ver src/domain/shared/phone.py.",
   "type": "object",
   "properties": {
-    "value": { "type": "string" }
-  }
+    "type": { "type": "string", "enum": ["MOBILE", "LANDLINE", "WHATSAPP", "OTHER"] },
+    "value": { "type": "string", "pattern": "^\\+?[\\d\\s().-]{6,}$" }
+  },
+  "required": ["type", "value"]
 }

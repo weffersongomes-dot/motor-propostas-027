@@ -2,12 +2,17 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "trip.schema.json",
   "title": "Trip",
-  "$comment": "Sprint 1A: apenas a forma. 'destination' é texto livre — a classificação formal (Destino/Formato/Finalidade/Produto) vive em proposal-classification.schema.json. Corresponde a src/domain/trip/trip.py.",
+  "$comment": "Sprint 1B: 'passenger_ids' novo campo, obrigatório e com ao menos 1 item — Trip referencia Passenger (do Aggregate Customer) por id, não o possui (ver docs/domain-decisions.md). 'destination' continua texto livre; a classificação formal vive em proposal-classification.schema.json. Corresponde a src/domain/trip/trip.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "destination": { "type": "string" },
+    "destination": { "type": "string", "minLength": 1 },
     "date_range": { "$ref": "../shared/date-range.schema.json" },
+    "passenger_ids": {
+      "type": "array",
+      "items": { "$ref": "../shared/identifier.schema.json" },
+      "minItems": 1
+    },
     "flights": {
       "type": "array",
       "items": { "$ref": "flight.schema.json" }
@@ -20,5 +25,6 @@
       "type": "array",
       "items": { "$ref": "service.schema.json" }
     }
-  }
+  },
+  "required": ["id", "destination", "date_range", "passenger_ids"]
 }

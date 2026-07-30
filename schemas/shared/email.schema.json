@@ -2,9 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "email.schema.json",
   "title": "Email",
-  "$comment": "Sprint 1A: apenas a forma. Sem 'format: email' — validação é Sprint 1B.",
+  "$comment": "Sprint 1B: formato básico validado (contém @ e um . depois) — não é validação RFC 5322 completa. Ver src/domain/shared/email.py.",
   "type": "object",
   "properties": {
-    "value": { "type": "string" }
-  }
+    "value": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" }
+  },
+  "required": ["value"]
 }

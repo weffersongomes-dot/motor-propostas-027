@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "financial.schema.json",
   "title": "Financial",
-  "$comment": "Sprint 1A: apenas a forma. 'payment_method' é texto livre — vira enum na Sprint 1B. Corresponde a src/domain/financial/financial.py.",
+  "$comment": "Sprint 1B: 'installments' >= 1 (sanidade numérica estrutural). 'payment_method' permanece texto livre de propósito — Regra Comercial ainda pendente em docs/business-rules.md (ver docs/domain-decisions.md). Corresponde a src/domain/financial/financial.py.",
   "type": "object",
   "properties": {
     "total": { "$ref": "../shared/money.schema.json" },
-    "payment_method": { "type": "string" },
-    "installments": { "type": "integer" }
-  }
+    "payment_method": { "type": "string", "minLength": 1 },
+    "installments": { "type": "integer", "minimum": 1 }
+  },
+  "required": ["total", "payment_method", "installments"]
 }

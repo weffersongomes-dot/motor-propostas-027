@@ -79,20 +79,38 @@ Cada sprint entrega um incremento fechado e testável. Sprints seguintes depende
 
 ---
 
-## Sprint 1B — Evolução do Modelo
+## Sprint 1B — Invariantes, Validações e Modelo Executável ✅ concluída
 
-**Objetivo:** adicionar aos objetos de domínio da Sprint 1A tudo que os torna um schema utilizável de verdade: validações, obrigatoriedades, enums, restrições, regras comerciais, financeiras e operacionais — com base no que for confirmado na Sprint 0.5 (tipos de proposta por dimensão, ciclo de vida, status, ações, versionamento, `business-rules.md`).
+**Objetivo:** transformar os objetos "só forma" da Sprint 1A num domínio capaz de proteger sua própria consistência — invariantes por Aggregate, validações estruturais, enums estruturais e estados do modelo, **nesta ordem**, sem nenhuma regra comercial da 027 (essa parte fica para uma sprint futura, quando `business-rules.md` estiver confirmado — ver Sprint 1C abaixo).
 
-**Pré-requisito:** Sprint 1A concluída; perguntas críticas do negócio (ver `docs/business-rules.md`, grupos Comerciais/Financeiras/Operacionais/Legais) respondidas o suficiente para que o Modelo Universal da Proposta represente a operação real.
+**Pré-requisito:** Sprint 1A concluída.
 
 **Entregáveis:**
-- `required`, `enum` e demais restrições adicionados aos schemas já existentes em `schemas/` (não criar novos arquivos — evoluir os da Sprint 1A).
-- Comportamento de domínio (ex: `Proposal.aprovar()`, regra de nova versão) e validações em `src/domain/`, seguindo `docs/proposal-actions.md`/`proposal-status.md`.
-- Valores restritos (enum) para `ProposalClassification` (Destino/Formato/Finalidade/Produto, ver `proposal-types.md`), formas de pagamento, categorias de fornecedor, etc.
+- Invariantes documentadas e implementadas para os 5 Aggregate Roots (Company, Customer, Supplier, Trip, Proposal) via `__post_init__` + exceções de domínio (`InvariantViolationError`/`StructuralValidationError` em `src/domain/shared/exceptions.py`) e guards reutilizáveis (`src/domain/shared/guards.py`).
+- Validações estruturais em todo Value Object do Shared Kernel (Identifier, Email, Phone, Address, DocumentNumber, DateRange, Money) e novos VOs `CountryCode`/`LanguageCode`.
+- Enums estruturais: `DocumentType`, `PhoneType`, `Currency` (shared); `PassengerType` (customer); `SupplierCategory` (supplier); `AirportType` (trip); `ProposalDimension`, `ProposalStatus`, `ProposalVersionStatus` (proposal).
+- `Proposal` formalizada como Aggregate de Coordenação — [ADR 0007](docs/decisoes/0007-proposal-aggregate-de-coordenacao.md).
+- `src/domain/events/` preparada (sem eventos implementados) — lista de eventos previstos documentada.
+- [docs/domain-decisions.md](docs/domain-decisions.md) — 9 decisões de modelagem granulares registradas.
+- `schemas/` revisado: `required` estrutural e `enum` estrutural adicionados (nunca de negócio).
+- `docs/glossary.md`, `docs/bounded-context-map.md`, `docs/universal-proposal-model.md`, `docs/ARCHITECTURE.md`, `README.md` atualizados.
+- [ADR 0008](docs/decisoes/0008-sprint-1b-invariantes-e-validacoes.md) — abordagem técnica geral da sprint.
+- `examples/domain_example.py` — substitui o exemplo da Sprint 1A; executado com sucesso, incluindo demonstração de rejeição de dado inválido.
 
 **Critérios de aceite:**
-- Todo campo obrigatório, enum e restrição tem lastro em uma regra registrada (não pendente) em `docs/business-rules.md`.
-- Modelo documentado e revisável sem depender de código.
+- Nenhuma regra comercial da 027 foi implementada — ✅ (`Financial.payment_method` permanece texto livre; valores de `ProposalClassification` continuam sem enum).
+- Toda invariante/validação tem correspondência em `schemas/` — ✅.
+- Domínio rejeita dado estruturalmente inválido em tempo de construção — ✅ (demonstrado em `examples/domain_example.py`).
+
+---
+
+## Sprint 1C — Regras Comerciais (proposta, não iniciada)
+
+**Objetivo:** completar o que a Sprint 1B deliberadamente não fez — validações, obrigatoriedades e enums que dependem de decisão comercial da 027 (formas de pagamento, valores de `ProposalClassification`, política de cancelamento/validade, os 9 estados ricos de `docs/proposal-status.md`).
+
+**Pré-requisito:** Workshops 1 e 2 de `docs/discovery-workshop.md` (Atendimento, Financeiro) concluídos — as 5 perguntas de prioridade Alta em `docs/business-rules.md` respondidas.
+
+**Nota:** número de sprint provisório — ver recomendação de próximos passos ao final da entrega da Sprint 1B.
 
 ---
 

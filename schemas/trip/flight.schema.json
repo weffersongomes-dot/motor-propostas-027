@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "flight.schema.json",
   "title": "Flight",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/trip/flight.py.",
+  "$comment": "Sprint 1B: campos obrigatórios; arrival_at >= departure_at validado em código (src/domain/trip/flight.py).",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
@@ -11,5 +11,6 @@
     "destination": { "$ref": "airport.schema.json" },
     "departure_at": { "type": "string" },
     "arrival_at": { "type": "string" }
-  }
+  },
+  "required": ["id", "supplier_id", "origin", "destination", "departure_at", "arrival_at"]
 }

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "address.schema.json",
   "title": "Address",
-  "$comment": "Sprint 1A: apenas a forma. Nenhum campo obrigatório ainda — isso é Sprint 1B.",
+  "$comment": "Sprint 1B: 'country' referencia country-code.schema.json. Apenas street/city/postal_code são obrigatórios — o mínimo estrutural de um endereço utilizável. Ver src/domain/shared/address.py.",
   "type": "object",
   "properties": {
     "street": { "type": "string" },
@@ -11,7 +11,8 @@
     "neighborhood": { "type": "string" },
     "city": { "type": "string" },
     "state": { "type": "string" },
-    "country": { "type": "string" },
+    "country": { "$ref": "country-code.schema.json" },
     "postal_code": { "type": "string" }
-  }
+  },
+  "required": ["street", "city", "postal_code"]
 }

@@ -4,7 +4,7 @@ Este documento centraliza **todas as regras comerciais conhecidas** da 027 Viage
 
 Nenhuma regra aqui foi inventada ou presumida como fato. Uma regra só sai de "Regras pendentes"/"Perguntas em aberto" e entra em "Regras conhecidas" depois de confirmada com o time comercial da 027 Viagens (ver processo em `docs/discovery-workshop.md`).
 
-> Como usar: toda regra registrada aqui deve, mais cedo ou mais tarde, ter uma implementação correspondente em `src/core/` e, quando for texto voltado ao cliente, um texto correspondente em `content/`. Se uma regra muda aqui, o código e o conteúdo devem mudar junto. Termos usados nesta seção devem ser consistentes com `docs/glossary.md`.
+> Como usar: toda regra registrada aqui deve, mais cedo ou tarde, ter uma implementação correspondente em `src/domain/` (comportamento/validação de uma Entidade) ou `src/application/` (regra que envolve mais de um Aggregate) e, quando for texto voltado ao cliente, um texto correspondente em `content/`. Se uma regra muda aqui, o código e o conteúdo devem mudar junto. Termos usados nesta seção devem ser consistentes com `docs/glossary.md`.
 
 ---
 

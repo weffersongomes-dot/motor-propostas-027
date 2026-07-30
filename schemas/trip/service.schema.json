@@ -2,12 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "service.schema.json",
   "title": "Service",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/trip/service.py.",
+  "$comment": "Sprint 1B: campos obrigatórios ('is_optional' tem default estrutural false em código, não neste schema). Corresponde a src/domain/trip/service.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
     "supplier_id": { "$ref": "../shared/identifier.schema.json" },
-    "description": { "type": "string" },
+    "description": { "type": "string", "minLength": 1 },
     "is_optional": { "type": "boolean" }
-  }
+  },
+  "required": ["id", "supplier_id", "description"]
 }

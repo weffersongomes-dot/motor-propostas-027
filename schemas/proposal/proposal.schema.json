@@ -2,13 +2,16 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "proposal.schema.json",
   "title": "Proposal",
-  "$comment": "Sprint 1A: apenas a forma. Proposal é só a identidade estável + histórico de versões; todo conteúdo real vive em ProposalVersion. Corresponde a src/domain/proposal/proposal.py.",
+  "$comment": "Sprint 1B: 'status' novo, enum estrutural (Draft/Published/Closed). 'versions' obrigatório com ao menos 1 item; no máximo uma versão com status ACTIVE é validado em código, não expressável em JSON Schema puro (ver src/domain/proposal/proposal.py e ADR 0007 — Proposal como Aggregate de Coordenação). Corresponde a src/domain/proposal/proposal.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
+    "status": { "type": "string", "enum": ["DRAFT", "PUBLISHED", "CLOSED"] },
     "versions": {
       "type": "array",
-      "items": { "$ref": "proposal-version.schema.json" }
+      "items": { "$ref": "proposal-version.schema.json" },
+      "minItems": 1
     }
-  }
+  },
+  "required": ["id", "status", "versions"]
 }

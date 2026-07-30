@@ -86,7 +86,7 @@ Cada termo é documentado com:
 - **Contexto de uso:** todo o ciclo de vida (`proposal-lifecycle.md`); todo o Modelo Universal (`universal-proposal-model.md`) descreve uma Proposta.
 - **Sinônimos aceitos:** nenhum confirmado.
 - **Termos que não devem ser usados:** "orçamento", "cotação" como sinônimo de Proposta — ver distinção em Cotação, acima.
-- **Impacto no código e na documentação:** entidade central em `src/models/` (Sprint 1A) e `schemas/proposta.schema.json` (Sprint 1B); nome de módulo em `ARCHITECTURE.md` ("Motor de Propostas").
+- **Impacto no código e na documentação:** `src/domain/proposal/proposal.py` e `schemas/proposal/proposal.schema.json`; nome de módulo em `ARCHITECTURE.md` ("Motor de Propostas").
 - **Status:** Confirmado (é o termo definidor do projeto).
 
 ### Destino, Formato, Finalidade, Produto
@@ -109,12 +109,12 @@ Cada termo é documentado com:
 
 ### Status (da Proposta)
 
-- **Definição oficial:** estado atual de uma `Proposta` dentro do seu ciclo de vida (ver `proposal-status.md`).
-- **Contexto de uso:** todo o ciclo de vida; é um atributo da versão mais recente de uma proposta.
+- **Definição oficial:** estado de uma `Proposta`/`Versão` dentro do seu ciclo de vida. **Dois níveis, propositalmente distintos desde a Sprint 1B** (ver `docs/domain-decisions.md`): o estado *estrutural* (`ProposalStatus`: Draft/Published/Closed, em `Proposal.status`; `ProposalVersionStatus`: Draft/Active/Archived, em `ProposalVersion.status`) já é código, tipado e validado; o estado *comercial rico* de `proposal-status.md` (9 estados: Rascunho, Enviada, Em negociação, Aprovada, Aguardando pagamento, Paga, Emitida, Cancelada, Expirada) continua pendente de confirmação com o negócio e ainda não tem correspondência em código.
+- **Contexto de uso:** todo o ciclo de vida; `ProposalVersion.status` é um atributo direto da versão (não mais só de `metadata`).
 - **Sinônimos aceitos:** nenhum.
-- **Termos que não devem ser usados:** "situação" como sinônimo informal — usar sempre "status".
-- **Impacto no código e na documentação:** campo `metadata.status` do Modelo Universal; valores ainda em rascunho em `proposal-status.md`.
-- **Status:** Rascunho (valores possíveis ainda não confirmados).
+- **Termos que não devem ser usados:** "situação" como sinônimo informal — usar sempre "status". Não confundir `ProposalVersion.status` (estrutural, código) com `metadata.status` (rótulo livre, genérico entre módulos, ver `Metadata`).
+- **Impacto no código e na documentação:** `src/domain/proposal/enums.py` (`ProposalStatus`, `ProposalVersionStatus`); `metadata.status` no Modelo Universal permanece texto livre; os 9 estados ricos de `proposal-status.md` seguem em rascunho, sem código correspondente.
+- **Status:** Parcialmente confirmado — estrutura tipada existe (`ProposalStatus`/`ProposalVersionStatus`); o vocabulário comercial rico de `proposal-status.md` segue Rascunho.
 
 ### Aprovação
 
@@ -146,7 +146,7 @@ Cada termo é documentado com:
 ### Documento
 
 - **Definição oficial:** qualquer artefato gerado a partir de uma `Versão` da Proposta (HTML, PDF, WhatsApp, e-mail — ver `ARCHITECTURE.md`).
-- **Contexto de uso:** saída dos geradores (`src/generators/`), sempre referenciando uma Versão específica.
+- **Contexto de uso:** saída dos geradores (`src/infrastructure/`, quando implementados), sempre referenciando uma Versão específica.
 - **Sinônimos aceitos:** nenhum.
 - **Termos que não devem ser usados:** não confundir com "Módulo de documento" (que é um *tipo* de documento como um todo, ex: Propostas, Contratos — ver `ARCHITECTURE.md`); "Documento" no singular é sempre um artefato concreto.
 - **Impacto no código e na documentação:** seção `anexos`/geradores do Modelo Universal; termo usado em `universal-proposal-model.md` e `ARCHITECTURE.md`.
@@ -190,20 +190,29 @@ Cada termo é documentado com:
 
 ### Metadata
 
-- **Definição oficial:** dados de rastreabilidade presentes em toda `Proposta`/`Documento`, existindo mesmo quando não exibidos ao cliente (`proposal_id`, `schema_version`, `engine_version`, `template`, `generated_at`, `generated_by`, `consultor`, `origem`, `status`).
+- **Definição oficial:** dados de rastreabilidade presentes em toda `Proposta`/`Documento`, existindo mesmo quando não exibidos ao cliente (`subject_id`, `schema_version`, `engine_version`, `template`, `generated_at`, `generated_by`, `consultant_id`, `origem`, `status`).
 - **Contexto de uso:** bloco obrigatório de todo Modelo Universal (ver `universal-proposal-model.md`).
 - **Sinônimos aceitos:** nenhum.
-- **Termos que não devem ser usados:** —
-- **Impacto no código e na documentação:** bloco `metadata` do Modelo Universal, replicado em todo módulo futuro.
+- **Termos que não devem ser usados:** `proposal_id` — renomeado para `subject_id` na Sprint 1B (revisão de Shared Kernel, ver `docs/domain-decisions.md`); não reintroduzir o nome antigo em código ou documentação novos.
+- **Impacto no código e na documentação:** `src/domain/shared/metadata.py`; `schemas/shared/metadata.schema.json`.
 - **Status:** Confirmado (arquitetura).
 
 ### Módulo (de documento)
 
 - **Definição oficial:** um tipo de documento comercial suportado pela plataforma (Propostas, Contratos, Vouchers, etc. — ver `ARCHITECTURE.md`).
-- **Contexto de uso:** organização de `templates/`, `output/` e `src/generators/`.
+- **Contexto de uso:** organização de `templates/`, `output/`, `schemas/` e `src/domain/`/`src/infrastructure/`.
 - **Sinônimos aceitos:** "Motor de [Módulo]" (ex: "Motor de Propostas") é o nome de produto do módulo.
 - **Termos que não devem ser usados:** não confundir com `Documento` (artefato concreto) nem com `Capacidade` (serviço de plataforma).
 - **Impacto no código e na documentação:** estrutura de pastas em `ARCHITECTURE.md`.
+- **Status:** Confirmado (arquitetura).
+
+### Aggregate de Coordenação
+
+- **Definição oficial:** um Aggregate Root que referencia outros Aggregates exclusivamente por `Identifier` (nunca os possui/embute) e não concentra o conteúdo de nenhum deles — sua responsabilidade é coordenar, não ser dona de todo o domínio. `Proposal` é o primeiro exemplo confirmado (ver ADR 0007).
+- **Contexto de uso:** modelagem de qualquer Aggregate central de um módulo (ex: um futuro `Contract` deve seguir o mesmo padrão).
+- **Sinônimos aceitos:** nenhum.
+- **Termos que não devem ser usados:** não chamar um Aggregate de Coordenação de "Aggregate raiz de tudo" ou equivalente — a ideia central é o oposto (ele não é dono de tudo).
+- **Impacto no código e na documentação:** `src/domain/proposal/proposal.py`; ADR [0007](decisoes/0007-proposal-aggregate-de-coordenacao.md).
 - **Status:** Confirmado (arquitetura).
 
 ### Capacidade (de plataforma)
@@ -238,4 +247,4 @@ Cada termo é documentado com:
 
 - `docs/domain-map.md`, `docs/proposal-types.md`, `docs/proposal-lifecycle.md`, `docs/proposal-status.md`, `docs/proposal-actions.md`, `docs/proposal-versioning.md` e `docs/business-rules.md` devem usar exclusivamente os termos definidos aqui.
 - `docs/discovery-workshop.md` é a ferramenta usada para confirmar, corrigir ou completar estes termos junto ao proprietário da 027 Viagens.
-- A partir da Sprint 1A, `src/models/` deve nomear objetos de domínio exatamente como aqui; a partir da Sprint 1B, `schemas/proposta.schema.json` deve nomear campos da mesma forma — nenhum nome técnico divergente do glossário (ex: não usar `traveler` no schema se o glossário define `Passageiro`).
+- Desde a Sprint 1A, `src/domain/` nomeia objetos de domínio exatamente como aqui (em inglês, mapeando 1:1 para o termo em português — ex: `Passenger` = `Passageiro`); desde a Sprint 1B, `schemas/` nomeia campos da mesma forma — nenhum nome técnico divergente do glossário.

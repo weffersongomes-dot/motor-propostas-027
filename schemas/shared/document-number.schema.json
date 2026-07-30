@@ -2,10 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "document-number.schema.json",
   "title": "DocumentNumber",
-  "$comment": "Sprint 1A: 'type' é texto livre (ex: CPF, CNPJ, Passaporte) — vira enum na Sprint 1B.",
+  "$comment": "Sprint 1B: 'type' é enum estrutural. Nenhum algoritmo de dígito verificador (CPF/CNPJ) validado aqui — ver src/domain/shared/document_number.py.",
   "type": "object",
   "properties": {
-    "type": { "type": "string" },
-    "value": { "type": "string" }
-  }
+    "type": { "type": "string", "enum": ["CPF", "CNPJ", "PASSPORT", "RG", "OTHER"] },
+    "value": { "type": "string", "minLength": 1 }
+  },
+  "required": ["type", "value"]
 }

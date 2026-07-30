@@ -2,10 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "money.schema.json",
   "title": "Money",
-  "$comment": "Sprint 1A: apenas a forma. Sem obrigatoriedade, sem enum de moeda — isso é Sprint 1B.",
+  "$comment": "Sprint 1B: 'currency' é enum estrutural (conjunto pequeno e deliberadamente incompleto, ver src/domain/shared/enums.py). Sem limite de sinal em 'amount' — valor negativo pode ser um crédito/estorno legítimo, isso é decisão estrutural, não regra comercial.",
   "type": "object",
   "properties": {
     "amount": { "type": "number" },
-    "currency": { "type": "string" }
-  }
+    "currency": { "type": "string", "enum": ["BRL", "USD", "EUR", "OTHER"] }
+  },
+  "required": ["amount", "currency"]
 }

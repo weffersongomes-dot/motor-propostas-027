@@ -2,7 +2,7 @@
 
 Este documento é a referência técnica principal do projeto. Qualquer decisão de implementação deve ser compatível com o que está descrito aqui; qualquer mudança relevante de arquitetura deve atualizar este documento e registrar o porquê em `docs/decisoes/`.
 
-Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (Linguagem Ubíqua — conceitos de domínio, no padrão DDD), [`bounded-context-map.md`](bounded-context-map.md) (fronteiras de responsabilidade entre os contextos de negócio: Comercial, Operações, Financeiro, Cadastro), [`domain-map.md`](domain-map.md) (relacionamento entre as entidades do domínio), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens, organizadas em Comerciais/Financeiras/Operacionais/Legais) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo), além dos documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md) (classificação por dimensões), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido. A plataforma segue Domain-Driven Design: o domínio (glossário + mapa de domínio + regras) é descoberto e nomeado antes de qualquer modelagem técnica (ver [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md)).
+Documentos relacionados: [`vision.md`](vision.md) (por que o projeto existe e princípios inquebráveis), [`glossary.md`](glossary.md) (Linguagem Ubíqua — conceitos de domínio, no padrão DDD), [`bounded-context-map.md`](bounded-context-map.md) (fronteiras de responsabilidade entre os contextos de negócio: Comercial, Operações, Financeiro, Cadastro), [`domain-map.md`](domain-map.md) (relacionamento entre as entidades do domínio), [`domain-decisions.md`](domain-decisions.md) (decisões de modelagem granulares, sem ADR própria), [`business-rules.md`](business-rules.md) (regras comerciais da 027 Viagens, organizadas em Comerciais/Financeiras/Operacionais/Legais) e [`universal-proposal-model.md`](universal-proposal-model.md) (especificação completa do Modelo Universal da Proposta, seção 4 abaixo), além dos documentos de descoberta de negócio — [`proposal-types.md`](proposal-types.md) (classificação por dimensões), [`proposal-lifecycle.md`](proposal-lifecycle.md), [`proposal-status.md`](proposal-status.md), [`proposal-actions.md`](proposal-actions.md), [`proposal-versioning.md`](proposal-versioning.md) e [`discovery-workshop.md`](discovery-workshop.md) — produzidos na Sprint 0.5 (Engenharia Comercial) antes de qualquer schema ser definido. A plataforma segue Domain-Driven Design: o domínio (glossário + mapa de domínio + regras) é descoberto e nomeado antes de qualquer modelagem técnica (ver [ADR 0005](decisoes/0005-refinamento-pre-sprint-1a.md)).
 
 ## 1. Visão geral
 
@@ -19,7 +19,7 @@ A plataforma distingue dois tipos de peça, porque cada um cresce de um jeito di
 
 | Módulo de documento | Status |
 |---|---|
-| Motor de Propostas | Em desenvolvimento — domínio modelado na Sprint 1A |
+| Motor de Propostas | Em desenvolvimento — domínio modelado (1A) e validado (1B) |
 | Motor de Contratos | Futuro |
 | Motor de Vouchers | Futuro |
 | Motor de Itinerários | Futuro |
@@ -96,7 +96,7 @@ Cada módulo futuro (Motor de Contratos, Motor de Vouchers, etc.) terá seu pró
 | `schemas/` | Definir a estrutura formal de cada Entidade/Value Object, por Bounded Context (ver `bounded-context-map.md`) | Lógica, texto, apresentação |
 | `config/` | Dados institucionais/comerciais fixos da empresa (CNPJ, contatos, pagamento, políticas) | Dados de um cliente específico; texto longo (isso é `content/`) |
 | `content/` | Textos institucionais e comerciais (políticas por extenso, e-mails-modelo, WhatsApp-modelo, FAQ, diferenciais) | Dados estruturados (isso é `config/`); lógica de quando usar cada texto (isso é `src/domain/`) |
-| `src/domain/` | Entidades, Value Objects, Aggregates e (futuramente) regras/comportamento de domínio — organizado por Bounded Context, com `shared/` para o que é verdadeiramente comum (ver ADR 0006) | Persistência, geração de HTML/PDF, chamadas a serviços externos, qualquer detalhe de infraestrutura |
+| `src/domain/` | Entidades, Value Objects, Aggregates — com invariantes estruturais e validações de forma desde a Sprint 1B (ver ADR 0008) — organizado por Bounded Context, com `shared/` para o que é verdadeiramente comum (ver ADR 0006) | Persistência, geração de HTML/PDF, chamadas a serviços externos, qualquer detalhe de infraestrutura, e (ainda) regra comercial da 027 — só entra quando `business-rules.md` estiver confirmado |
 | `src/application/` | Casos de uso que orquestram o domínio (ex: "Aprovar Proposta") — vazio até uma sprint futura | Regra de negócio de uma única Entidade (isso é `src/domain/`), detalhe técnico (isso é `src/infrastructure/`) |
 | `components/` | Blocos de apresentação reutilizáveis (cabeçalho, rodapé, bloco de voo, bloco de hotel, bloco financeiro, assinatura, QR code, diferenciais, observações), por formato | Cálculo, decisão, validação |
 | `templates/<modulo>/<formato>/` | Composição final de um documento num formato, a partir de `components/` e do Modelo Universal | Regra de negócio, dado institucional fixo |
@@ -144,6 +144,7 @@ motor-propostas-027/
 │   ├── glossary.md                → Linguagem Ubíqua (conceitos de domínio, DDD)
 │   ├── bounded-context-map.md     → fronteiras entre contextos de negócio (Comercial/Operações/Financeiro/Cadastro)
 │   ├── domain-map.md              → relacionamento entre as entidades do domínio
+│   ├── domain-decisions.md        → decisões de modelagem granulares (sem ADR própria)
 │   ├── business-rules.md          → regras comerciais (Comerciais/Financeiras/Operacionais/Legais)
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
 │   ├── proposal-types.md          → tipos de proposta suportados (descoberta de negócio)
@@ -165,8 +166,9 @@ motor-propostas-027/
 │   ├── company/, customer/, supplier/, trip/, financial/, proposal/
 ├── scripts/                       → scripts utilitários
 ├── src/
-│   ├── domain/                    → Entidades, Value Objects e Aggregates, por Bounded Context
-│   │   ├── shared/                → Shared Kernel (BaseEntity, ValueObject, Identifier, DomainEvent, Money, Metadata...)
+│   ├── domain/                    → Entidades, Value Objects e Aggregates, por Bounded Context — validados (Sprint 1B)
+│   │   ├── shared/                → Shared Kernel (BaseEntity, ValueObject, Identifier, DomainEvent, exceptions, guards, Money, Metadata...)
+│   │   ├── events/                → estrutura preparada para Domain Events (sem eventos implementados, ver src/domain/events/README.md)
 │   │   ├── company/, customer/, supplier/, trip/, financial/, proposal/
 │   ├── application/               → casos de uso (vazio nesta sprint, ver src/application/README.md)
 │   └── infrastructure/            → geradores, persistência, integrações (vazio nesta sprint, ver src/infrastructure/README.md)

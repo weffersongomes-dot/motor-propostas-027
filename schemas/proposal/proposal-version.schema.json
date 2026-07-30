@@ -2,17 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "proposal-version.schema.json",
   "title": "ProposalVersion",
-  "$comment": "Sprint 1A: apenas a forma. 'status' não existe como campo próprio — vive em metadata.status. Corresponde a src/domain/proposal/proposal_version.py.",
+  "$comment": "Sprint 1B: 'status' novo, enum estrutural (Draft/Active/Archived) — o estado tipado desta versão, distinto de metadata.status (texto livre, genérico entre módulos — ver docs/domain-decisions.md). Todos os campos obrigatórios. Corresponde a src/domain/proposal/proposal_version.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "version_number": { "type": "string" },
+    "version_number": { "type": "string", "minLength": 1 },
     "company_id": { "$ref": "../shared/identifier.schema.json" },
     "customer_id": { "$ref": "../shared/identifier.schema.json" },
     "trip_id": { "$ref": "../shared/identifier.schema.json" },
     "consultant_id": { "$ref": "../shared/identifier.schema.json" },
     "classification": { "$ref": "proposal-classification.schema.json" },
     "financial": { "$ref": "../financial/financial.schema.json" },
-    "metadata": { "$ref": "../shared/metadata.schema.json" }
-  }
+    "metadata": { "$ref": "../shared/metadata.schema.json" },
+    "status": { "type": "string", "enum": ["DRAFT", "ACTIVE", "ARCHIVED"] }
+  },
+  "required": ["id", "version_number", "company_id", "customer_id", "trip_id", "consultant_id", "classification", "financial", "metadata", "status"]
 }

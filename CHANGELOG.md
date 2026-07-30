@@ -6,6 +6,24 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/), e o
 
 ## [Unreleased]
 
+### Added (Sprint 1B — Invariantes, Validações e Modelo Executável)
+- `src/domain/shared/exceptions.py` (`DomainError`, `InvariantViolationError`, `StructuralValidationError`) e `src/domain/shared/guards.py` (funções de validação reutilizáveis) — mecanismo de validação de todo o domínio, sem dependência externa.
+- Invariantes implementadas para os 5 Aggregate Roots (Company, Customer, Supplier, Trip, Proposal), incluindo uma invariante que atravessa o Aggregate inteiro (Proposal: no máximo uma ProposalVersion `ACTIVE` simultaneamente).
+- Validações estruturais em todo o Shared Kernel: Identifier, Email (formato básico), Phone (formato básico), Address, DocumentNumber, DateRange (`end >= start`), Money.
+- Novos Value Objects `CountryCode` e `LanguageCode` (validados por formato ISO, não por enum fechado — decisão registrada em `docs/domain-decisions.md`).
+- Enums estruturais: `DocumentType`, `PhoneType`, `Currency` (`src/domain/shared/enums.py`); `PassengerType` (`customer/enums.py`); `SupplierCategory` (`supplier/enums.py`); `AirportType` (`trip/enums.py`); `ProposalDimension`, `ProposalStatus`, `ProposalVersionStatus` (`proposal/enums.py`).
+- Novo campo `Trip.passenger_ids` (Trip referencia Passenger do Customer por id, não o possui) e novos campos `Proposal.status`/`ProposalVersion.status` (estados estruturais tipados).
+- `src/domain/events/` — estrutura preparada para Domain Events (README com 8 eventos previstos), sem implementação.
+- `docs/domain-decisions.md` — 9 decisões de modelagem granulares (Proposal x Trip/Customer, Trip não pertence a Proposal, Passenger em Customer x Trip, CountryCode/LanguageCode como VO, Metadata.status x ProposalVersion.status, ProposalClassification sem dict, payment_method não virou enum, código em inglês x glossário em português).
+- ADR [0007](docs/decisoes/0007-proposal-aggregate-de-coordenacao.md) — Proposal como Aggregate Root de Coordenação.
+- ADR [0008](docs/decisoes/0008-sprint-1b-invariantes-e-validacoes.md) — abordagem técnica da Sprint 1B (mecanismo de validação, critério enum vs. texto livre, revisão do Shared Kernel).
+- `examples/domain_example.py` — substitui `examples/sprint_1a_domain_example.py`; executado com sucesso, incluindo demonstração de rejeição de dado estruturalmente inválido (Identifier vazio, Email malformado, DateRange invertido, Trip sem passageiro).
+
+### Changed (Sprint 1B — Invariantes, Validações e Modelo Executável)
+- Revisão do Shared Kernel: `Metadata.proposal_id` renomeado para `subject_id` (evita acoplar um VO compartilhado ao vocabulário do módulo Propostas).
+- `schemas/` revisado: `required` estrutural e `enum` estrutural adicionados em todos os arquivos (nunca `enum`/obrigatoriedade de negócio); dois schemas novos (`shared/country-code.schema.json`, `shared/language-code.schema.json`).
+- `docs/universal-proposal-model.md`, `docs/glossary.md`, `docs/bounded-context-map.md`, `docs/ARCHITECTURE.md`, `README.md`, `ROADMAP.md` atualizados para refletir a Sprint 1B; `ROADMAP.md` marca Sprint 1B como concluída e adiciona Sprint 1C (Regras Comerciais, não iniciada, provisória) para o que ficou deliberadamente pendente.
+
 ### Added (Sprint 1A — Modelagem do Domínio)
 - `docs/bounded-context-map.md` — quatro Bounded Contexts (Comercial, Operações, Financeiro, Cadastro): responsabilidades, limites, dependências, comunicação e mapeamento para os módulos técnicos de `src/domain/`.
 - `src/domain/` — primeira implementação de código do projeto: Shared Kernel (`BaseEntity`, `ValueObject`, `Identifier`, `DomainEvent`, `Money`, `Email`, `Phone`, `Address`, `DocumentNumber`, `DateRange`, `Metadata`) e Entidades/Value Objects/Aggregates por Bounded Context — `company/` (Company, Consultant), `customer/` (Customer, Passenger), `supplier/` (Supplier), `trip/` (Trip, Flight, Accommodation, Service, Airport), `financial/` (Financial), `proposal/` (Proposal, ProposalVersion, ProposalClassification). Aggregate Roots: Company, Customer, Supplier, Trip, Proposal. Zero validação, obrigatoriedade, enum ou regra de negócio, conforme escopo da sprint.

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "language-code.schema.json",
+  "title": "LanguageCode",
+  "$comment": "Sprint 1B: validado por formato (ISO 639-1), mesma lógica de country-code.schema.json. Preparado para uso futuro — nenhum schema referencia este ainda. Ver docs/domain-decisions.md e src/domain/shared/language_code.py.",
+  "type": "object",
+  "properties": {
+    "value": { "type": "string", "pattern": "^[a-z]{2}$" }
+  },
+  "required": ["value"]
+}

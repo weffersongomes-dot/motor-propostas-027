@@ -2,12 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "passenger.schema.json",
   "title": "Passenger",
-  "$comment": "Sprint 1A: apenas a forma. Corresponde a src/domain/customer/passenger.py.",
+  "$comment": "Sprint 1B: 'passenger_type' é enum estrutural (faixa etária). Nenhuma checagem cruzada com birth_date (ver docs/domain-decisions.md). Corresponde a src/domain/customer/passenger.py.",
   "type": "object",
   "properties": {
     "id": { "$ref": "../shared/identifier.schema.json" },
-    "name": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
     "document_number": { "$ref": "../shared/document-number.schema.json" },
-    "birth_date": { "type": "string" }
-  }
+    "birth_date": { "type": "string" },
+    "passenger_type": { "type": "string", "enum": ["ADULT", "CHILD", "INFANT"] }
+  },
+  "required": ["id", "name", "document_number", "birth_date", "passenger_type"]
 }

@@ -40,7 +40,7 @@ Nenhum desses passos deve exigir redesenhar o que já existe — é essa a razã
 Estes princípios são o critério de aceite implícito de qualquer mudança futura, de qualquer módulo, feita por qualquer pessoa ou IA:
 
 1. **Fonte única de dados** — todo documento gerado nasce de um único Modelo Universal, validado e enriquecido. Nenhum gerador ou template busca dado fora dele, nem direto do usuário.
-2. **Regra de negócio nunca vive em template** — HTML, PDF, WhatsApp e e-mail apenas apresentam. Decisão e cálculo vivem em `src/core/`.
+2. **Regra de negócio nunca vive em template** — HTML, PDF, WhatsApp e e-mail apenas apresentam. Decisão e cálculo vivem em `src/domain/`.
 3. **Nada institucional fixo em código** — dados da empresa (`config/`) e textos institucionais (`content/`) são editáveis sem deploy e sem tocar em código.
 4. **Nenhuma regra comercial escondida** — toda regra usada na geração de um documento está documentada em `business-rules.md` antes ou junto de virar código.
 5. **Módulos não se acoplam entre si** — um módulo de documento (proposta, contrato, voucher...) nunca depende de outro módulo, só das camadas compartilhadas.

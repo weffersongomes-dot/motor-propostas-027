@@ -51,6 +51,7 @@ motor-propostas-027/
 │   ├── glossary.md        → Linguagem Ubíqua (conceitos de domínio, DDD)
 │   ├── bounded-context-map.md → fronteiras entre contextos de negócio (Comercial/Operações/Financeiro/Cadastro)
 │   ├── domain-map.md      → relacionamento entre as entidades do domínio
+│   ├── domain-decisions.md → decisões de modelagem granulares (sem ADR própria)
 │   ├── business-rules.md  → regras comerciais (Comerciais/Financeiras/Operacionais/Legais)
 │   ├── universal-proposal-model.md → especificação do Modelo Universal da Proposta
 │   ├── proposal-types.md, proposal-lifecycle.md, proposal-status.md,
@@ -64,8 +65,9 @@ motor-propostas-027/
 ├── schemas/               → JSON Schema modular por Bounded Context (shared, company, customer, supplier, trip, financial, proposal)
 ├── scripts/               → scripts utilitários (setup, geração em lote, etc.)
 ├── src/
-│   ├── domain/            → Entidades, Value Objects e Aggregates, por Bounded Context (ver domain/*/README implícito nos módulos)
-│   │   ├── shared/        → Shared Kernel: BaseEntity, ValueObject, Identifier, DomainEvent, Money, Metadata...
+│   ├── domain/            → Entidades, Value Objects e Aggregates, por Bounded Context — validados desde a Sprint 1B
+│   │   ├── shared/        → Shared Kernel: BaseEntity, ValueObject, Identifier, DomainEvent, exceptions, guards, Money, Metadata...
+│   │   ├── events/        → estrutura preparada para Domain Events, sem eventos implementados
 │   │   └── company/, customer/, supplier/, trip/, financial/, proposal/
 │   ├── application/       → casos de uso — vazio nesta sprint (ver src/application/README.md)
 │   └── infrastructure/    → geradores, persistência, integrações — vazio nesta sprint (ver src/infrastructure/README.md)
@@ -98,10 +100,10 @@ Detalhes de objetivos, entregáveis e critérios de aceite de cada sprint estão
 
 ## Instruções para desenvolvimento
 
-Requer **Python 3.10+** (biblioteca padrão apenas, nesta sprint). Para rodar o exemplo de domínio:
+Requer **Python 3.9+** (biblioteca padrão apenas, nesta sprint). Para rodar o exemplo de domínio (constrói uma Proposal completa e válida, e demonstra o domínio rejeitando dado estruturalmente inválido):
 
 ```bash
-python examples/sprint_1a_domain_example.py
+python examples/domain_example.py
 ```
 
 Convenções a seguir em todo o projeto:
@@ -124,6 +126,7 @@ Convenções a seguir em todo o projeto:
 - [docs/glossary.md](docs/glossary.md) — Linguagem Ubíqua (conceitos de domínio, DDD)
 - [docs/bounded-context-map.md](docs/bounded-context-map.md) — fronteiras entre contextos de negócio (Comercial/Operações/Financeiro/Cadastro)
 - [docs/domain-map.md](docs/domain-map.md) — relacionamento entre as entidades do domínio
+- [docs/domain-decisions.md](docs/domain-decisions.md) — decisões de modelagem granulares (sem ADR própria)
 - [docs/business-rules.md](docs/business-rules.md) — regras comerciais conhecidas (e pendentes) da 027 Viagens
 - [docs/universal-proposal-model.md](docs/universal-proposal-model.md) — especificação do Modelo Universal da Proposta
 - Descoberta de negócio (Sprint 0.5): [docs/proposal-types.md](docs/proposal-types.md), [docs/proposal-lifecycle.md](docs/proposal-lifecycle.md), [docs/proposal-status.md](docs/proposal-status.md), [docs/proposal-actions.md](docs/proposal-actions.md), [docs/proposal-versioning.md](docs/proposal-versioning.md)
